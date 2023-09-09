@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateTicketRequest;
+use App\Http\Requests\EditTicketRequest;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
 
@@ -28,9 +30,9 @@ class TicketControlller extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateTicketRequest $request)
     {
-        //
+        Ticket::create($request->validated());
     }
 
     /**
@@ -52,7 +54,7 @@ class TicketControlller extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(EditTicketRequest $request, Ticket $ticket)
     {
         //
     }
@@ -63,5 +65,9 @@ class TicketControlller extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function addComment(Ticket $ticket)
+    {
     }
 }

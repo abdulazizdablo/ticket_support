@@ -29,8 +29,19 @@
 
             <!-- Page Content -->
             <main>
+
+<x-vertical_navigaiton>
+
+asdasd
+    
+</x-vertical_navigaiton>
+
+
                 {{ $slot }}
             </main>
         </div>
+      
+        
+        
     </body>
 </html>
