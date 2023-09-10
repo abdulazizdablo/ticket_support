@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TicketControlller;
+use App\Http\Controllers\TicketController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
-    Route::resource('tickets', TicketControlller::class);
+    Route::resource('tickets', TicketController::class);
     Route::resource('labels', LabelsControlller::class);
     Route::resource('categories', CategoryControlller::class);
 });

@@ -57,6 +57,8 @@
                 <!-- Page Content -->
                 <main class="px-4 sm:px-6 flex-1">
                     {{ $slot }}
+
+               
                 </main>
 
                 <!-- Page Footer -->

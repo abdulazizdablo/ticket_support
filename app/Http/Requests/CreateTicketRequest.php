@@ -24,6 +24,9 @@ class CreateTicketRequest extends FormRequest
         return [
             'title' => 'required|string|max:50',
             'description' => 'required|string|max:255',
+            'label' => 'required|',
+            'category' => 'required|',
+            
             
         ];
     }

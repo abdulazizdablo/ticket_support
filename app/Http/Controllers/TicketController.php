@@ -7,7 +7,7 @@ use App\Http\Requests\EditTicketRequest;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
 
-class TicketControlller extends Controller
+class TicketController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class TicketControlller extends Controller
     {
         $tickets = Ticket::paginate(30);
 
-        return view('tickets.index')->with('tickets', $tickets);
+        return view('index')->with('tickets', $tickets);
     }
 
     /**
@@ -24,7 +24,7 @@ class TicketControlller extends Controller
      */
     public function create()
     {
-        return view('tickets.create');
+        return view('create');
     }
 
     /**
@@ -48,7 +48,7 @@ class TicketControlller extends Controller
      */
     public function edit(Ticket $ticket)
     {
-        return view('tickets.edit')->with('ticket',$ticket);
+        return view('tickets.edit')->with('ticket', $ticket);
     }
 
     /**

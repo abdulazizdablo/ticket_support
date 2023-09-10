@@ -1,4 +1,15 @@
+<x-app-layout>
 
+ <x-slot name='header'>
+
+    <label for="grid-state" > Filter by</label>
+    <select class="block appearance-none w-3 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+        <option>Status</option>
+        <option>Priority</option>
+        <option>Category</option>
+      </select>
+
+    <a href="{{route('tickets.create')}}"><button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create Ticket</button></a>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -12,9 +23,7 @@
                 <th scope="col" class="px-6 py-3">
                     Label
                 </th>
-                <th scope="col" class="px-6 py-3">
-                    Price
-                </th>
+             
                 <th scope="col" class="px-6 py-3">
                     Category
                 </th>
@@ -112,3 +121,5 @@
         </tbody>
     </table>
 </div>
+    </x-slot>
+</x-app-layout>
