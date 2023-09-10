@@ -24,7 +24,7 @@ class TicketControlller extends Controller
      */
     public function create()
     {
-        //
+        return view('tickets.create');
     }
 
     /**
@@ -38,7 +38,7 @@ class TicketControlller extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Ticket $ticket)
     {
         //
     }
@@ -46,9 +46,9 @@ class TicketControlller extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Ticket $ticket)
     {
-        //
+        return view('tickets.edit')->with('ticket',$ticket);
     }
 
     /**
@@ -62,7 +62,7 @@ class TicketControlller extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Ticket $ticket)
     {
         //
     }
