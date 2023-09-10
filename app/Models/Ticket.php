@@ -18,6 +18,7 @@ class Ticket extends Model
         'description',
         'priority',
         'status',
+        'files'
 
     ];
 

@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Label;
 
-class LabelControlller extends Controller
+class LabelController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $labels = Label::paginate(30);
+
+        return view()->with('labels',$labels);
     }
 
     /**

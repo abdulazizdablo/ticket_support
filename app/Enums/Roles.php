@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum Roles
+enum Roles: int
 {
 
     const ADMINSTRATOR = 1;
