@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <x-slot name="header">
-        <form action="{{route('tickets.store')}}" method="POST">
+        <form action="{{route('tickets.store')}}" method="POST" enctype="multipart/form-data">
           @csrf
             <div class="mb-6">
                 <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
@@ -21,7 +21,7 @@
 
             <h3 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> Labels</h3>
 
-            <div class="flex justify-evenly content-center mb-6">
+            <div class="flex  items-start content-center mb-6">
 
                 <div class="flex justify-evenly items-center ml-3 h-5">
                     <input id="bug" type="radio" value="bug" name="label"
@@ -52,16 +52,16 @@
 
             <h3 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> Categories</h3>
 
-            <div class="flex justify-evenly content-center mb-6">
+            <div class="flex items-start content-center mb-6">
 
-                <div class="flex justify-evenly items-center ml-3 h-5">
+                <div class="flex items-center ml-3 h-5">
                     <input id="uncategorized" type="radio" value="uncategorized" name="category"
                         class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
                         required>
                     <label for="uncategorized"
                         class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Uncategorized</label>
                 </div>
-                <div class="flex justify-evenly  ml-3    items-center h-5">
+                <div class="flex   ml-3    items-center h-5">
 
                     <input id="billing\payment" type="radio" value="question" name="category"
                         class="w-4 h-4  border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
@@ -84,7 +84,7 @@
 
             <select
                 class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="status">
+                id="priority" name="priority">
 
                 @foreach (App\Enums\Priorities::cases() as $priority)
                     <option value="{{ $priority->value }}">{{ $priority->value }}</option>
@@ -92,38 +92,11 @@
 
             </select>
 
-            <div class="mb-6 pt-4">
-                <label class="mb-5 block text-xl font-semibold text-[#07074D]">
-                    Upload File
-                </label>
+          
+<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="multiple_files">Upload multiple files</label>
+<input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="multiple_files" name="files[]" type="file" multiple >
+<p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PDF,DOCX,CSV,XLSX</p>
 
-                <div class="mb-8">
-                    <input type="file" name="file" id="file" class="sr-only" />
-                    <label for="file"
-                        class="relative flex min-h-[200px] items-center justify-center rounded-md border border-dashed border-[#e0e0e0] p-12 text-center">
-                        <div>
-                            <span class="mb-2 block text-xl font-semibold text-[#07074D]">
-                                Drop files here
-                            </span>
-                            <span class="mb-2 block text-base font-medium text-[#6B7280]">
-                                Or
-                            </span>
-                            <span
-                                class="inline-flex rounded border border-[#e0e0e0] py-2 px-7 text-base font-medium text-[#07074D]">
-                                Browse
-                            </span>
-                        </div>
-                    </label>
-                </div>
-
-                <div class="mb-5 rounded-md bg-[#F5F7FB] py-4 px-8">
-                    <div class="flex items-center justify-between">
-
-
-                    </div>
-                </div>
-
-            </div>
             <button type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
         </form>

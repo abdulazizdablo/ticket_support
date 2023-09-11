@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('statuses_id')->default(1)->constrained();
             $table->string('title', 50);
             $table->text('description', 255);
-            $table->enum('priorities', Priorities::values());
+            $table->enum('priority', Priorities::values());
             $table->json('files');
             $table->timestamps();
         });

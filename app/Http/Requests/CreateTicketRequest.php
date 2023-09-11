@@ -22,7 +22,14 @@ class CreateTicketRequest extends FormRequest
     public function rules(): array
     {
         return [
-          
+
+            /*'title' => 'required|string|max:40',
+            'description' => 'required|string|max:255',
+            'label' => 'required',
+            'priorirty' => 'required',
+            'category' => 'required',
+            'files' => 'required'*/
+
         ];
     }
 }

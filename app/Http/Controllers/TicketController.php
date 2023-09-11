@@ -18,8 +18,8 @@ class TicketController extends Controller
     public function index()
     {
         $tickets = Ticket::paginate(30);
-
-        return view('index')->with('tickets', $tickets);
+        $tickes_count = Ticket::count();
+        return view('index')->with('tickets', $tickets)->with('tickets_count', $tickets_count);
     }
 
     /**
@@ -33,21 +33,26 @@ class TicketController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CreateTicketRequest $request, CreateLabelService $label_service, CreateCategoryService $category_service)
+    public function store(Request $request, CreateLabelService $label_service, CreateCategoryService $category_service)
     {
+
+
         $files = [];
         if ($request->file('files')) {
             foreach ($request->file('files') as $key => $file) {
+
+
                 $file_name = time() . rand(1, 99) . '.' . $file->extension();
                 $file->move(public_path('uploads'), $file_name);
                 $files[]['name'] = $file_name;
             }
         }
-
+        dd($files);
         foreach ($files as $key => $file) {
             File::create($file);
         }
-        Ticket::create($request->validated());
+
+        Ticket::create($request->all());
         $label_service->createLabel($request->label);
         $category_service->createCategory($request->category);
     }

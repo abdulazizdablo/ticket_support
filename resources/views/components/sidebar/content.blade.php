@@ -54,7 +54,7 @@
     <x-sidebar.link title="Tickets" href="{{route('tickets.index')}}"><x-slot name="icon">
         <x-icons.ticket class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
     </x-slot></x-sidebar.link>
-
+@can('manage-dashboard')
     <x-sidebar.link title="Categories" href="#"><x-slot name="icon">
         <x-icons.categories class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
     </x-slot></x-sidebar.link>
@@ -72,7 +72,7 @@
         <x-icons.ticket_logs class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
     </x-slot></x-sidebar.link>
 
-
+@endcan
 
 
 </x-perfect-scrollbar>
