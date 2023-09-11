@@ -44,7 +44,7 @@ class RegisteredUserController extends Controller
             'role_id' => Roles::USER
         ]);
 
-        $user->assignRole('user');
+        $user->assignRole(Roles::USER);
 
         event(new Registered($user));
 

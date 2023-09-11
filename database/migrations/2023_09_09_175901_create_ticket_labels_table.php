@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ticket_labels', function (Blueprint $table) {
+        Schema::create('label_ticket', function (Blueprint $table) {
 
             $table->foreignId('ticket_id')->constrained();
             $table->foreignId('label_id')->constrained();
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ticket_labels');
+        Schema::dropIfExists('label_ticket');
     }
 };

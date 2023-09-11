@@ -2,19 +2,21 @@
 
 namespace App\Notifications;
 
+use App\Models\Ticket;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use App\Models\User;
 
-class TaskCreated extends Notification
+class TicketCreated extends Notification
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct(public Ticket $ticket, public User $admin)
     {
         //
     }
@@ -35,9 +37,10 @@ class TaskCreated extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->greeting('Dear' . $this->admin->name)
+            ->line('Ticket has been created')
+            ->action('Notification Action', route('tickets.edit', $this->ticket))
+            ->line('Thank you for using our application!');
     }
 
     /**

@@ -10,9 +10,12 @@
                 <span>Star on Github</span>
             </x-button>
         </div>
+
+        Total Tickets
+        {{ $tickets_count }}
     </x-slot>
 
     <div class="p-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1">
-        {{ __("You're logged in!")  }}
+        {{ __("You're logged in!") }}
     </div>
 </x-app-layout>

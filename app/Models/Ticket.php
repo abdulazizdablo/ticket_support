@@ -13,7 +13,7 @@ class Ticket extends Model
     use HasFactory;
 
     protected $fillable = [
-
+        'user_id',
         'title',
         'description',
         'priority',
@@ -37,4 +37,9 @@ class Ticket extends Model
     {
         return $this->belongsToMany(Label::class);
     }
+
+
+    protected $casts = [
+        'files' => 'array'
+    ];
 }
