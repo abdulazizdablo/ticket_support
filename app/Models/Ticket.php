@@ -39,6 +39,24 @@ class Ticket extends Model
     }
 
 
+    /*protected function FilesAttribute(): Attribute
+    {
+        return Attribute::make(
+            set: fn ( $value) => (array)$value,
+            get: fn (array $value) => $value = implode(' ,',$value),
+        );
+
+
+        
+    }*/
+
+
+    public function getFilesAttribute()
+    {
+        $files = json_decode($this->attributes['files']);
+
+        return implode(', ', $files);
+    }
     protected $casts = [
         'files' => 'array'
     ];

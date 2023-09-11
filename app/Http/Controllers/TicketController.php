@@ -20,9 +20,10 @@ class TicketController extends Controller
     public function index()
     {
 
-      $tickets = auth()->user()->tickets;
+        $tickets = auth()->user()->tickets;
+     
 
-       // $tickets = Ticket::paginate(30);
+        // $tickets = Ticket::paginate(30);
 
 
 
@@ -82,7 +83,7 @@ class TicketController extends Controller
         $label_service->createLabel($request->label, $ticket);
         $category_service->createCategory($request->category, $ticket);
 
-        $admin = User::where('role_id', Roles::ADMINSTRATOR);
+        $admin = User::where('role_id', Roles::ADMINSTRATOR)->first();
 
 
         $admin->notify(new TicketCreated($ticket, $admin));

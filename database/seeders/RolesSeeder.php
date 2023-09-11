@@ -18,7 +18,7 @@ class RolesSeeder extends Seeder
         Role::create(['name' => 'agent']);
         Role::create(['name' => 'user']);
 
-        Permission::create(['name' => 'manage-dashboard']);
-        $admin->givePermissionTo($admin);
+        //Permission::create(['name' => 'manage-dashboard']);
+       // $admin->givePermissionTo($admin);
     }
 }

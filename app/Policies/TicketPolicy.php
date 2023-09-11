@@ -4,6 +4,8 @@ namespace App\Policies;
 
 use App\Models\Ticket;
 use App\Models\User;
+use App\Enums\Roles;
+
 use Illuminate\Auth\Access\Response;
 
 class TicketPolicy
@@ -13,7 +15,6 @@ class TicketPolicy
      */
     public function viewAny(User $user): bool
     {
-       
     }
 
     /**
@@ -21,7 +22,7 @@ class TicketPolicy
      */
     public function view(User $user, Ticket $ticket): bool
     {
-        
+        return ($user->hasRole(Roles::USER) && $user->id === $ticket->user_id);
     }
 
     /**

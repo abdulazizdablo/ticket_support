@@ -55,7 +55,7 @@
             <div class="flex items-start content-center mb-6">
 
                 <div class="flex items-center ml-3 h-5">
-                    <input id="uncategorized" type="checkbox" value="uncategorized" name="category"
+                    <input id="uncategorized" type="checkbox" value="uncategorized" name="category[]"
                         class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
                       >
                     <label for="uncategorized"
@@ -63,7 +63,7 @@
                 </div>
                 <div class="flex   ml-3    items-center h-5">
 
-                    <input id="billing\payment" type="checkbox" value="billing\payment" name="category"
+                    <input id="billing\payment" type="checkbox" value="billing\payment" name="category[]"
                         class="w-4 h-4  border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
                         >
                     <label for="billing\payment"
@@ -71,7 +71,7 @@
                 </div>
                 <div class="flex justify-evenly   ml-3  items-center h-5">
 
-                    <input id="technical_question" type="checkbox" value="technical_question" name="category"
+                    <input id="technical_question" type="checkbox" value="technical_question" name="category[]"
                         class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
                    >
                     <label for="technical_question"

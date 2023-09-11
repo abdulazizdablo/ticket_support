@@ -13,12 +13,14 @@ class CreateLabelService
     {
 
 
-        $label_array  = [];
+        $label_ids  = [];
         foreach ($label_data as $single_label) {
 
-            $label_array[] =  Label::create(['name' => $single_label]);
+            $label =  Label::create(['name' => $single_label]);
+            $label_ids[] = $label->id;
         }
-        dd($label_array);
-        $ticket->labels()->attach($label_array);
+
+       
+        $ticket->labels()->attach($label_ids);
     }
 }
