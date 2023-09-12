@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
 use App\Models\Label;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Ticket extends Model
 {
@@ -56,6 +57,12 @@ class Ticket extends Model
         $files = json_decode($this->attributes['files']);
 
         return implode(', ', $files);
+    }
+
+    public function logs(): HasMany
+    {
+
+        return $this->hasMany(Log::class);
     }
     protected $casts = [
         'files' => 'array'
