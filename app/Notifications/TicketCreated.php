@@ -37,9 +37,10 @@ class TicketCreated extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
+            ->subject('Ticket Created')
             ->greeting('Dear ' . $this->admin->name)
             ->line('Ticket has been created')
-            ->action('Notification Action', route('tickets.edit', $this->ticket))
+            ->action('Ticket Link', url('tickets.edit', $this->ticket))
             ->line('Thank you for using our application!');
     }
 

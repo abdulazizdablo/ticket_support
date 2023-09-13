@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Events\TicketCreated;
 use App\Listeners\SendTicketCreatedNotification;
+use App\Models\Ticket;
+use App\Observers\TicketObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -31,7 +33,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Ticket::observe(TicketObserver::class);
     }
 
     /**

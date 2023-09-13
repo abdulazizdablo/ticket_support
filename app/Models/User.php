@@ -63,8 +63,21 @@ class User extends Authenticatable
         return $this->hasManyThrough(Comment::class, Ticket::class);
     }
 
-    public function getTicketsScope($q){
+
+
+    public function labels()
+    {
+
+        return $this->hasManyThrough(Label::class, Ticket::class);
+    }
+    public function categories()
+    {
+
+        return $this->hasManyThrough(Category::class, Ticket::class);
+    }
+
+   /* public function getTicketsScope($q){
 
 return $q->with
-    }
+    }*/
 }

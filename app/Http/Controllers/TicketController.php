@@ -10,8 +10,10 @@ use App\Services\CreateCategoryService;
 use App\Services\CreateLabelService;
 use App\Enums\Roles;
 use App\Events\TicketCreated as EventsTicketCreated;
+use App\Http\Requests\FilterTicketsRequest;
 use App\Models\User;
 use App\Notifications\TicketCreated;
+use App\Services\FilterTicketsService;
 
 class TicketController extends Controller
 {
@@ -21,18 +23,9 @@ class TicketController extends Controller
     public function index()
     {
 
-        //$tickets = auth()->user()->with('labels','categories')->tickets->;
 
+        $tickets = auth()->user()->load('tickets.labels', 'tickets.categories')->tickets;
 
-
-        
-        $tickets = User::with('tickets')->whereHas('tickets', function ($query) {
-
-            $query->with('labels', 'categories')->where('user_id', auth()->id());
-        })->get();
-        // $tickets = Ticket::paginate(30);
-
-dd($tickets->tickets);
 
         return view('index')->with('tickets', $tickets);
     }
@@ -130,5 +123,14 @@ dd($tickets->tickets);
 
     public function addComment(Ticket $ticket)
     {
+    }
+    public function filterTickets(Request $request,FilterTicketsService $tickets_filter){
+       // dd($request->tickets);
+
+      //$filtered_tickets =  $tickets_filter->filterTickets($request->tickets,$request->filter);
+
+      $filtered_tickets = Ticket::filter($request->filter);
+
+      return view('index')->with('tickets',$filtered_tickets);
     }
 }

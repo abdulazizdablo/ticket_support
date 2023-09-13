@@ -15,9 +15,9 @@ class TicketObserver
     {
 
         $created_by = User::find($ticket->user_id);
+
         $ticket->logs()->create([
 
-            'ticket' => $ticket->title,
             'created_by' => $created_by->name
         ]);
     }
@@ -28,7 +28,6 @@ class TicketObserver
     public function updated(Ticket $ticket): void
     {
         $ticket->logs->create([
-            'ticket' => $ticket->title,
             'updated_by' => auth()->user()->name
         ]);
     }

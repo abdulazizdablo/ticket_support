@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-
+Route::get('tickets-filter',[TicketController::class,'filterTickets'])->name('tickets.filter');
     Route::resource('tickets', TicketController::class);
     Route::resource('labels', LabelsControlller::class);
     Route::resource('categories', CategoryControlller::class);
