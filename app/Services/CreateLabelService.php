@@ -23,4 +23,10 @@ class CreateLabelService
        
         $ticket->labels()->attach($label_ids);
     }
+
+   /* public function getLabels(){
+
+
+        $lables = 
+    }*/
 }

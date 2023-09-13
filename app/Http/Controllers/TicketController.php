@@ -9,6 +9,7 @@ use App\Models\Ticket;
 use App\Services\CreateCategoryService;
 use App\Services\CreateLabelService;
 use App\Enums\Roles;
+use App\Events\TicketCreated as EventsTicketCreated;
 use App\Models\User;
 use App\Notifications\TicketCreated;
 
@@ -20,12 +21,18 @@ class TicketController extends Controller
     public function index()
     {
 
-        $tickets = auth()->user()->tickets;
-     
+        //$tickets = auth()->user()->with('labels','categories')->tickets->;
 
+
+
+        
+        $tickets = User::with('tickets')->whereHas('tickets', function ($query) {
+
+            $query->with('labels', 'categories')->where('user_id', auth()->id());
+        })->get();
         // $tickets = Ticket::paginate(30);
 
-
+dd($tickets->tickets);
 
         return view('index')->with('tickets', $tickets);
     }
@@ -78,15 +85,12 @@ class TicketController extends Controller
             ['files' =>   $file_names]
 
        */
-
+        event(new EventsTicketCreated($ticket));
 
         $label_service->createLabel($request->label, $ticket);
         $category_service->createCategory($request->category, $ticket);
 
-        $admin = User::where('role_id', Roles::ADMINSTRATOR)->first();
 
-
-        $admin->notify(new TicketCreated($ticket, $admin));
 
         return to_route('tickets.index')->withMessage('Ticket and its Label and Category has been created successfully');
     }
@@ -120,7 +124,8 @@ class TicketController extends Controller
      */
     public function destroy(Ticket $ticket)
     {
-        //
+        $ticket->delete();
+        return to_route('tickets.index')->withMessage('Ticket has been deleted successfully');
     }
 
     public function addComment(Ticket $ticket)

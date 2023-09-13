@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Log extends Model
 {
     use HasFactory;
+    
     protected $fillable = [
         'ticket',
-        'created_by'
+        'created_by',
+        'updated_by'
     ];
 }

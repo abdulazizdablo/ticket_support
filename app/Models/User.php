@@ -23,6 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id'
     ];
 
 
@@ -53,5 +54,17 @@ class User extends Authenticatable
     {
 
         return $this->hasMany(Ticket::class);
+    }
+
+
+    public function comments()
+    {
+
+        return $this->hasManyThrough(Comment::class, Ticket::class);
+    }
+
+    public function getTicketsScope($q){
+
+return $q->with
     }
 }

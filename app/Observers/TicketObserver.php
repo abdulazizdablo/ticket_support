@@ -27,7 +27,10 @@ class TicketObserver
      */
     public function updated(Ticket $ticket): void
     {
-        //
+        $ticket->logs->create([
+            'ticket' => $ticket->title,
+            'updated_by' => auth()->user()->name
+        ]);
     }
 
     /**
