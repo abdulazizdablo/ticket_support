@@ -15,6 +15,7 @@ use App\Models\Category;
 use App\Models\User;
 use App\Services\FilterTicketsService;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\CreateCommentRequest;
 
 class TicketController extends Controller
 {
@@ -94,7 +95,7 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        //
+        return view('show')->with('ticket',$ticket);
     }
 
     /**
@@ -125,8 +126,14 @@ class TicketController extends Controller
         return to_route('tickets.index')->withMessage('Ticket has been deleted successfully');
     }
 
-    public function addComment(Ticket $ticket)
+    public function addComment(Ticket $ticket, CreateCommentRequest $request)
     {
+
+        $ticket->comments()->create(
+
+            $request->validated()
+
+        );
     }
     public function filterTickets(Request $request, FilterTicketsService $tickets_filter)
     {
@@ -137,13 +144,8 @@ class TicketController extends Controller
 
         // filter Tickets based on categories related using joins
 
-        $filtered_tickets =  Ticket::selectRaw('group_concat(categories.name order by categories.name asc) as categories_names, tickets.*')->
-        join('category_ticket', 'tickets.id', '=', 'category_ticket.ticket_id')->
-        join('categories', 'categories.id', '=', 'category_ticket.category_id')->
-        groupBy('ticket_id')->
-        orderBy('categories_names')->
-        get();
+        $filtered_tickets =  Ticket::selectRaw('group_concat(categories.name order by categories.name asc) as categories_names, tickets.*')->join('category_ticket', 'tickets.id', '=', 'category_ticket.ticket_id')->join('categories', 'categories.id', '=', 'category_ticket.category_id')->groupBy('ticket_id')->orderBy('categories_names')->get();
 
-       return  view('index')->with('tickets', $filtered_tickets);
+        return  view('index')->with('tickets', $filtered_tickets);
     }
 }
