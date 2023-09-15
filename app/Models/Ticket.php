@@ -71,12 +71,25 @@ class Ticket extends Model
 
     public function scopeFilter(Builder $query, string $filter_determinator)
     {
-if($filter_determinator === 'category'){
+
+       /* $tickets_with_categories  = null;
+
+        if ($filter_determinator === 'category') {
 
 
-    return $query->
-}
 
-        return $query->orderBy($filter_determinator)->get();
+            return $query->with(['categories:name'=> function ($q) {
+
+                $q->with('name','DESC');
+            }])->get();
+
+
+           // $tickets_with_categories =  $query->with('categories.name')->get();
+        }
+            dd( $tickets_with_categories->sortBy('categories.name'));
+
+        return $query->orderBy($filter_determinator)->get();*/
+
+        
     }
 }

@@ -11,9 +11,10 @@ use App\Services\CreateLabelService;
 use App\Enums\Roles;
 use App\Events\TicketCreated as EventsTicketCreated;
 use App\Http\Requests\FilterTicketsRequest;
+use App\Models\Category;
 use App\Models\User;
-use App\Notifications\TicketCreated;
 use App\Services\FilterTicketsService;
+use Illuminate\Support\Facades\DB;
 
 class TicketController extends Controller
 {
@@ -24,7 +25,7 @@ class TicketController extends Controller
     {
 
 
-        $tickets = auth()->user()->load('tickets.labels', 'tickets.categories')->tickets;
+        $tickets = auth()->user()->load('tickets.labels:name', 'tickets.categories:name')->tickets;
 
 
         return view('index')->with('tickets', $tickets);
@@ -101,7 +102,10 @@ class TicketController extends Controller
      */
     public function edit(Ticket $ticket)
     {
-        return view('tickets.edit')->with('ticket', $ticket);
+
+        $agents = User::where('role_id', Roles::AGENT)->pluck('name', 'id');
+
+        return view('tickets.edit')->with('ticket', $ticket)->with('agents', $agents);
     }
 
     /**
@@ -124,13 +128,22 @@ class TicketController extends Controller
     public function addComment(Ticket $ticket)
     {
     }
-    public function filterTickets(Request $request,FilterTicketsService $tickets_filter){
-       // dd($request->tickets);
+    public function filterTickets(Request $request, FilterTicketsService $tickets_filter)
+    {
 
-      //$filtered_tickets =  $tickets_filter->filterTickets($request->tickets,$request->filter);
 
-      $filtered_tickets = Ticket::filter($request->filter);
 
-      return view('index')->with('tickets',$filtered_tickets);
+
+
+        // filter Tickets based on categories related using joins
+
+        $filtered_tickets =  Ticket::selectRaw('group_concat(categories.name order by categories.name asc) as categories_names, tickets.*')->
+        join('category_ticket', 'tickets.id', '=', 'category_ticket.ticket_id')->
+        join('categories', 'categories.id', '=', 'category_ticket.category_id')->
+        groupBy('ticket_id')->
+        orderBy('categories_names')->
+        get();
+
+       return  view('index')->with('tickets', $filtered_tickets);
     }
 }
