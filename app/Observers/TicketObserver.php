@@ -18,7 +18,8 @@ class TicketObserver
 
         $ticket->logs()->create([
 
-            'created_by' => $created_by->name
+            'created_by' => $created_by->name,
+            'updated_at' => null
         ]);
     }
 

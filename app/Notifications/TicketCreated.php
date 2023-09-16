@@ -40,7 +40,7 @@ class TicketCreated extends Notification
             ->subject('Ticket Created')
             ->greeting('Dear ' . $this->admin->name)
             ->line('Ticket has been created')
-            ->action('Ticket Link', url('tickets.edit', $this->ticket))
+            ->action('Ticket Link', url('tickets.edit/token=' . $this->admin->token, $this->ticket))
             ->line('Thank you for using our application!');
     }
 

@@ -14,8 +14,8 @@ use App\Http\Requests\FilterTicketsRequest;
 use App\Models\Category;
 use App\Models\User;
 use App\Services\FilterTicketsService;
-use Illuminate\Support\Facades\DB;
 use App\Http\Requests\CreateCommentRequest;
+use App\Models\Log;
 
 class TicketController extends Controller
 {
@@ -95,6 +95,9 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
+     $logs = Log::all();
+
+
         return view('show')->with('ticket', $ticket);
     }
 

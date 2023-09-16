@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LabelController;
+use App\Http\Controllers\CategoryController;
 use App\Models\Ticket;
 /*
 |--------------------------------------------------------------------------
@@ -23,18 +26,18 @@ Route::get('/dashboard', function () {
     $tickets_count = Ticket::count();
 
 
-    return view('dashboard')->with('tickets_count',$tickets_count);
+    return view('dashboard')->with('tickets_count', $tickets_count);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-Route::get('tickets-filter',[TicketController::class,'filterTickets'])->name('tickets.filter');
+    Route::post('comments', [CommentController::class], 'store')->name('comments.store');
+    Route::get('tickets-filter', [TicketController::class, 'filterTickets'])->name('tickets.filter');
     Route::resource('tickets', TicketController::class);
-    Route::resource('labels', LabelsControlller::class);
-    Route::resource('categories', CategoryControlller::class);
+    Route::resource('labels', LabelController::class);
+    Route::resource('categories', CategoryController::class);
 });
 
 // useless routes

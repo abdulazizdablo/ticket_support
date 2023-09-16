@@ -148,19 +148,21 @@
 
             </div>
 
+            @can('manage-dashboard')
 
-            <h3 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Agents</h3>
 
-            <select
-                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="agent_id" name="agent_id">
+                <h3 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Agents</h3>
 
-                @foreach ($agents as $agent)
-                    <option value="{{ $agent->id }}">{{ $agent->name }}</option>
-                @endforeach
+                <select
+                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    id="agent_id" name="agent_id">
 
-            </select>
+                    @foreach ($agents as $agent)
+                        <option value="{{ $agent->id }}">{{ $agent->name }}</option>
+                    @endforeach
 
+                </select>
+            @endcan
             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="multiple_files">Upload
                 multiple files</label>
             <input

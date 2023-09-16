@@ -26,5 +26,6 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::define('manage-dashboard', fn () => auth()->user()->hasRole(Roles::ADMINSTRATOR));
+       // Gate::define('add-comment',fn() => )
     }
 }
