@@ -23,7 +23,7 @@ class FilterTicketsRequest extends FormRequest
     {
         return [
             'filter_determinator' => 'required|in:status,priority,category',
-            'tickets' => 'required'
+           
         ];
     }
 }

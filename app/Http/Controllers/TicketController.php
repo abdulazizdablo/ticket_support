@@ -19,6 +19,13 @@ use App\Models\Log;
 
 class TicketController extends Controller
 {
+
+public function __construct(){
+
+
+    $this->middleware(['siginture','auth'])->only('show');
+}
+
     /**
      * Display a listing of the resource.
      */
@@ -95,10 +102,10 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-     $logs = $ticket->logs;
-$comments = $ticket->comments;
+        $logs = $ticket->logs;
+        $comments = $ticket->comments;
 
-        return view('show')->with('ticket', $ticket)->with('logs',$logs)->with('comments',$comments);
+        return view('show')->with('ticket', $ticket)->with('logs', $logs)->with('comments', $comments);
     }
 
     /**
@@ -134,26 +141,14 @@ $comments = $ticket->comments;
         return to_route('tickets.index')->withMessage('Ticket has been deleted successfully');
     }
 
-    public function addComment(Ticket $ticket, CreateCommentRequest $request)
+
+    
+    public function filterTickets(FilterTicketsRequest $request)
     {
-
-        $ticket->comments()->create(
-
-            $request->validated()
-
-        );
-    }
-    public function filterTickets(Request $request, FilterTicketsService $tickets_filter)
-    {
-
-
-
 
 
         // filter Tickets based on categories related using joins
         $filtered_tickets = Ticket::filter($request->filter);
-
-        //$filtered_tickets =  Ticket::selectRaw('group_concat(categories.name order by categories.name asc) as categories_names, tickets.*')->join('category_ticket', 'tickets.id', '=', 'category_ticket.ticket_id')->join('categories', 'categories.id', '=', 'category_ticket.category_id')->groupBy('ticket_id')->orderBy('categories_names')->get();
 
         return  view('index')->with('tickets', $filtered_tickets);
     }

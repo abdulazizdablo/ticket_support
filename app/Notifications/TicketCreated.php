@@ -8,17 +8,19 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\User;
+use Illuminate\Support\Facades\URL;
 
 class TicketCreated extends Notification
 {
     use Queueable;
+    protected $url;
 
     /**
      * Create a new notification instance.
      */
     public function __construct(public Ticket $ticket, public User $admin)
     {
-        //
+        $this->url =  URL::signedRoute('tickets.show', ['ticket' => $ticket->id]);
     }
 
     /**
@@ -40,7 +42,7 @@ class TicketCreated extends Notification
             ->subject('Ticket Created')
             ->greeting('Dear ' . $this->admin->name)
             ->line('Ticket has been created')
-            ->action('Ticket Link', url('tickets.edit/token=' . $this->admin->token, $this->ticket))
+            ->action('Ticket Link',$this->url)
             ->line('Thank you for using our application!');
     }
 
