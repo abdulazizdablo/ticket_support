@@ -95,10 +95,10 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-     $logs = Log::all();
+     $logs = $ticket->logs;
+$comments = $ticket->comments;
 
-
-        return view('show')->with('ticket', $ticket);
+        return view('show')->with('ticket', $ticket)->with('logs',$logs)->with('comments',$comments);
     }
 
     /**
