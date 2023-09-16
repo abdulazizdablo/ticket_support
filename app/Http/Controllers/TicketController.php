@@ -95,7 +95,7 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        return view('show')->with('ticket',$ticket);
+        return view('show')->with('ticket', $ticket);
     }
 
     /**
@@ -106,7 +106,7 @@ class TicketController extends Controller
 
         $agents = User::where('role_id', Roles::AGENT)->pluck('name', 'id');
 
-        return view('tickets.edit')->with('ticket', $ticket)->with('agents', $agents);
+        return view('edit')->with('ticket', $ticket)->with('agents', $agents);
     }
 
     /**
@@ -114,7 +114,12 @@ class TicketController extends Controller
      */
     public function update(EditTicketRequest $request, Ticket $ticket)
     {
-        //
+
+        $agent = User::find($request->agent_id);
+
+        $agent->tickets()->create($request->validated());
+
+        return to_route('tickets.index')->withMessage('Ticket has been updated successfully');
     }
 
     /**
@@ -143,8 +148,9 @@ class TicketController extends Controller
 
 
         // filter Tickets based on categories related using joins
+        $filtered_tickets = Ticket::filter($request->filter);
 
-        $filtered_tickets =  Ticket::selectRaw('group_concat(categories.name order by categories.name asc) as categories_names, tickets.*')->join('category_ticket', 'tickets.id', '=', 'category_ticket.ticket_id')->join('categories', 'categories.id', '=', 'category_ticket.category_id')->groupBy('ticket_id')->orderBy('categories_names')->get();
+        //$filtered_tickets =  Ticket::selectRaw('group_concat(categories.name order by categories.name asc) as categories_names, tickets.*')->join('category_ticket', 'tickets.id', '=', 'category_ticket.ticket_id')->join('categories', 'categories.id', '=', 'category_ticket.category_id')->groupBy('ticket_id')->orderBy('categories_names')->get();
 
         return  view('index')->with('tickets', $filtered_tickets);
     }

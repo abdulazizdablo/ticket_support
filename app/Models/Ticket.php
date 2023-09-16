@@ -69,10 +69,27 @@ class Ticket extends Model
         'files' => 'array'
     ];
 
-    public function scopeFilter(Builder $query, string $filter_determinator)
+    public function scopeFilter(Builder $query,string $filter_determinator)
     {
 
-       /* $tickets_with_categories  = null;
+
+
+        if ($filter_determinator === 'category') {
+
+
+            $tickets = auth()->user()->tickets()->with('categories:name','labels:name')
+            ->selectRaw('group_concat(categories.name order by categories.name asc) as categories_names, tickets.*')->join('category_ticket', 'tickets.id', '=', 'category_ticket.ticket_id')->join('categories', 'categories.id', '=', 'category_ticket.category_id')->groupBy('ticket_id')->orderBy('categories_names')->get();
+
+            return $tickets;
+        } else {
+
+
+            return Ticket::with('categories:name', 'labels:name')->orderBy($filter_determinator)->get();
+        }
+
+
+
+        /* $tickets_with_categories  = null;
 
         if ($filter_determinator === 'category') {
 
@@ -89,7 +106,5 @@ class Ticket extends Model
             dd( $tickets_with_categories->sortBy('categories.name'));
 
         return $query->orderBy($filter_determinator)->get();*/
-
-        
     }
 }
