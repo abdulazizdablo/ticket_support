@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('agent_id')->nullable()->constrained('users');
-            $table->foreignId('statuses_id')->default(1)->constrained();
+            $table->foreignId('status_id')->default(1)->constrained();
             $table->string('title', 50);
             $table->text('description', 255);
             $table->enum('priority', Priorities::values());

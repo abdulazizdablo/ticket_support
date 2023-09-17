@@ -15,5 +15,6 @@ class CommentController extends Controller
     {
 
         $ticket->comments()->create($request->validated());
+        return back()->withMessage('Comment has been added');
     }
 }

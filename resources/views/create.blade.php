@@ -25,23 +25,20 @@
 
                 <div class="flex justify-evenly items-center ml-3 h-5">
                     <input id="bug" type="checkbox" value="bug" name="label[]"
-                        class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                       >
+                        class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800">
                     <label for="bug" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">bug</label>
                 </div>
                 <div class="flex justify-evenly ml-3 items-center h-5">
 
                     <input id="question" type="checkbox" value="question" name="label[]"
-                        class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                       >
+                        class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800">
                     <label for="question"
                         class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">question</label>
                 </div>
                 <div class="flex justify-evenly   ml-3  items-center h-5">
 
                     <input id="enhancment" type="checkbox" value="enhancment" name="label[]"
-                        class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                       >
+                        class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800">
                     <label for="enhancment"
                         class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">enhancment</label>
                 </div>
@@ -56,34 +53,31 @@
 
                 <div class="flex items-center ml-3 h-5">
                     <input id="uncategorized" type="checkbox" value="uncategorized" name="category[]"
-                        class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                      >
+                        class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800">
                     <label for="uncategorized"
                         class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Uncategorized</label>
                 </div>
                 <div class="flex   ml-3    items-center h-5">
 
                     <input id="billing\payment" type="checkbox" value="billing\payment" name="category[]"
-                        class="w-4 h-4  border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                        >
+                        class="w-4 h-4  border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800">
                     <label for="billing\payment"
                         class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Billing\Payment</label>
                 </div>
                 <div class="flex justify-evenly   ml-3  items-center h-5">
 
                     <input id="technical_question" type="checkbox" value="technical_question" name="category[]"
-                        class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                   >
+                        class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800">
                     <label for="technical_question"
                         class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Technical question</label>
                 </div>
 
 
             </div>
-
+            <label for="priority" class="mt-2">Priority</label>
 
             <select
-                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                class=" mb-2 block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="priority" name="priority">
 
                 @foreach (App\Enums\Priorities::cases() as $priority)
@@ -91,6 +85,22 @@
                 @endforeach
 
             </select>
+
+
+            <label for="status" class="mb-2">Status</label>
+
+            <select
+                class="block mt-2 appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="status_id" name="status_id">
+
+                @foreach ($statuses as $status)
+                    <option value="{{ $status->id }}">{{ ucfirst($status->name) }}</option>
+                @endforeach
+
+            </select>
+
+
+
 
 
             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="multiple_files">Upload

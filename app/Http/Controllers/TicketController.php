@@ -34,7 +34,7 @@ class TicketController extends Controller
     {
 
 
-      // $tickets = auth()->user()->load('tickets.labels:name', 'tickets.categories:name')->tickets;
+        // $tickets = auth()->user()->load('tickets.labels:name', 'tickets.categories:name')->tickets;
         $tickets = Ticket::with('labels:name', 'categories:name')->get();
 
         return view('index')->with('tickets', $tickets);
@@ -45,7 +45,10 @@ class TicketController extends Controller
      */
     public function create()
     {
-        return view('create');
+        $statuses = DB::table('statuses')->get(['id', 'name']);
+
+
+        return view('create')->with('statuses', $statuses);
     }
 
     /**
@@ -78,7 +81,7 @@ class TicketController extends Controller
 
         $ticket =  Ticket::create([
 
-
+            'status_id' => $request->status_id,
             'title' => $request->title,
             'description' => $request->description,
             'priority' => $request->priority,

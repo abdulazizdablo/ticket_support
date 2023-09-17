@@ -19,7 +19,7 @@ class Ticket extends Model
         'title',
         'description',
         'priority',
-        'status',
+        'status_id',
         'files'
 
     ];
@@ -38,6 +38,12 @@ class Ticket extends Model
     public function labels(): BelongsToMany
     {
         return $this->belongsToMany(Label::class);
+    }
+
+    public function comments(): HasMany
+    {
+
+        return $this->hasMany(Comment::class);
     }
 
 

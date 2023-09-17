@@ -154,7 +154,7 @@
                 <h3 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Agents</h3>
 
                 <select
-                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    class=" mb-2 block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="agent_id" name="agent_id">
 
                     @foreach ($agents as $agent)
@@ -169,7 +169,7 @@
                 id="status" name="status">
 
                 @foreach ($statuses as $status)
-                    <option value="{{ $status->id }}">{{ $status->name }}</option>
+                    <option value="{{ $status->id }}">{{ucfirst($status->name) }}</option>
                 @endforeach
 
             </select>
