@@ -148,7 +148,7 @@
 
             </div>
 
-            @can('manage-dashboard')
+            
 
 
                 <h3 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Agents</h3>
@@ -162,7 +162,19 @@
                     @endforeach
 
                 </select>
-            @endcan
+
+
+                <select
+                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="status" name="status">
+
+                @foreach ($statuses as $status)
+                    <option value="{{ $status->id }}">{{ $status->name }}</option>
+                @endforeach
+
+            </select>
+
+            
             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="multiple_files">Upload
                 multiple files</label>
             <input

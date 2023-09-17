@@ -24,9 +24,9 @@ class SendTicketCreatedNotification
     public function handle(object $event): void
     {
 
-        $admin = User::where('role_id', Roles::ADMINSTRATOR)->first();
+        //$admin = User::where('role_id', Roles::ADMINSTRATOR)->first();
 
 
-        $admin->notify(new TicketCreated($event->ticket, $admin));
+        $event->admin->notify(new TicketCreated($event->ticket, $event->admin));
     }
 }

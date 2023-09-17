@@ -13,6 +13,8 @@ use App\Events\TicketCreated as EventsTicketCreated;
 use App\Http\Requests\FilterTicketsRequest;
 use App\Models\Category;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use App\Services\FilterTicketsService;
 use App\Http\Requests\CreateCommentRequest;
 use App\Models\Log;
@@ -20,11 +22,10 @@ use App\Models\Log;
 class TicketController extends Controller
 {
 
-public function __construct(){
-
-
-
-}
+    public function __construct()
+    {
+        $this->middleware(['auth', 'signed'])->only('edit');
+    }
 
     /**
      * Display a listing of the resource.
@@ -33,8 +34,8 @@ public function __construct(){
     {
 
 
-        $tickets = auth()->user()->load('tickets.labels:name', 'tickets.categories:name')->tickets;
-
+      // $tickets = auth()->user()->load('tickets.labels:name', 'tickets.categories:name')->tickets;
+        $tickets = Ticket::with('labels:name', 'categories:name')->get();
 
         return view('index')->with('tickets', $tickets);
     }
@@ -77,7 +78,7 @@ public function __construct(){
 
         $ticket =  Ticket::create([
 
-            'user_id' => auth()->id(),
+
             'title' => $request->title,
             'description' => $request->description,
             'priority' => $request->priority,
@@ -87,7 +88,9 @@ public function __construct(){
             ['files' =>   $file_names]
 
        */
-        event(new EventsTicketCreated($ticket));
+
+        $admin = User::where('role_id', Roles::ADMINSTRATOR)->first();
+        event(new EventsTicketCreated($ticket, $admin));
 
         $label_service->createLabel($request->label, $ticket);
         $category_service->createCategory($request->category, $ticket);
@@ -114,9 +117,12 @@ public function __construct(){
     public function edit(Ticket $ticket)
     {
 
-        $agents = User::where('role_id', Roles::AGENT)->pluck('name', 'id');
+        Gate::authorize('manage-dashboard');
 
-        return view('edit')->with('ticket', $ticket)->with('agents', $agents);
+        $agents = User::where('role_id', Roles::AGENT)->pluck('name', 'id');
+        $statuses = DB::table('statuses')->get('name');
+
+        return view('edit')->with('ticket', $ticket)->with('agents', $agents)->with('statuses', $statuses);
     }
 
     /**
@@ -125,9 +131,11 @@ public function __construct(){
     public function update(EditTicketRequest $request, Ticket $ticket)
     {
 
+        Gate::authorize('manage-dashboard');
+
         $agent = User::find($request->agent_id);
 
-        $agent->tickets()->create($request->validated());
+        $agent->tickets()->save($ticket);
 
         return to_route('tickets.index')->withMessage('Ticket has been updated successfully');
     }
@@ -137,12 +145,14 @@ public function __construct(){
      */
     public function destroy(Ticket $ticket)
     {
+        Gate::authorize('manage-dashboard');
+
         $ticket->delete();
         return to_route('tickets.index')->withMessage('Ticket has been deleted successfully');
     }
 
 
-    
+
     public function filterTickets(FilterTicketsRequest $request)
     {
 

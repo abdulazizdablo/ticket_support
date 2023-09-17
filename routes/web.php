@@ -21,7 +21,6 @@ use App\Models\Ticket;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('tickets',[TicketController::class,'edit'])->middleware(['signed'])->name('tickets.edit');
 
 Route::get('/dashboard', function () {
     $tickets_count = Ticket::count();

@@ -90,7 +90,7 @@
                                 <td class="px-6 py-4">
                                     {{ $ticket->files }}
                                 </td>
-                                @can('manage-dahboard')
+                                @can('manage-dashboard')
                                     <td class="px-6 py-4">
                                         <a href="{{ route('tickets.edit', $ticket) }}"
                                             class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
@@ -100,7 +100,7 @@
                                         @method('DELETE')
                                     <td class="px-6 py-4">
                                         <button type="submit"
-                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Delete</button>
+                                        class="text-red bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-red-800">Delete</button>
                                     </form>
                                 @endcan
                             </tr>
