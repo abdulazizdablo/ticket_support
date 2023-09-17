@@ -23,7 +23,7 @@ class TicketController extends Controller
 public function __construct(){
 
 
-    $this->middleware(['siginture','auth'])->only('show');
+
 }
 
     /**

@@ -21,6 +21,7 @@ use App\Models\Ticket;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('tickets',[TicketController::class,'edit'])->middleware(['signed'])->name('tickets.edit');
 
 Route::get('/dashboard', function () {
     $tickets_count = Ticket::count();
@@ -28,7 +29,6 @@ Route::get('/dashboard', function () {
 
     return view('dashboard')->with('tickets_count', $tickets_count);
 })->middleware(['auth', 'verified',])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

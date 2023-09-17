@@ -20,7 +20,9 @@ class TicketCreated extends Notification
      */
     public function __construct(public Ticket $ticket, public User $admin)
     {
-        $this->url =  URL::signedRoute('tickets.show', ['ticket' => $ticket->id]);
+        $this->url =  URL::temporarySignedRoute('tickets.edit', now()->addHour(), [
+            'ticket' => $ticket->id
+        ]);
     }
 
     /**
@@ -42,7 +44,7 @@ class TicketCreated extends Notification
             ->subject('Ticket Created')
             ->greeting('Dear ' . $this->admin->name)
             ->line('Ticket has been created')
-            ->action('Ticket Link',$this->url)
+            ->action('Ticket Link', $this->url)
             ->line('Thank you for using our application!');
     }
 

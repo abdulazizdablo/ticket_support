@@ -72,9 +72,37 @@
                 </tbody>
             </table>
         </div>
+
+<h3>Comments on this ticket</h3>
+
+
+
+
+    
+
+<div class="max-w-sm rounded overflow-hidden shadow-lg mt-3 mb-5">
+
+    <div class="px-6 py-4 mt-3">
+      <div class="font-bold text-xl mb-2">The Coldest Sunset</div>
+      <p class="text-gray-700 text-base">
+
+      </p>
+    </div>
+    <div class="px-6 pt-4 pb-2">
+      <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
+     
+    </div>
+  </div>
+
+
+
+
+  <div class="mb-6 mt-5">
+
+
+
         <form action="{{ route('comments.store') }}" method="POST" >
             @csrf
-            <div class="mb-6">
                 <label for="comment"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add Comment</label>
                 <textarea type="text" rows="5" id="comment" name="comment"
