@@ -19,7 +19,7 @@ class TicketCreated
     /**
      * Create a new event instance.
      */
-    public function __construct(public Ticket $ticket,public User $admin)
+    public function __construct(public Ticket $ticket, public User $admin)
     {
         //
     }

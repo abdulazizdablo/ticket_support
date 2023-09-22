@@ -15,6 +15,7 @@ use App\Models\Category;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use App\Models\Comment;
 use App\Services\FilterTicketsService;
 use App\Http\Requests\CreateCommentRequest;
 use App\Models\Log;
@@ -108,8 +109,12 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
+
+
+  $comments = Comment::with('user')->get();
+
         $logs = $ticket->logs;
-        $comments = $ticket->comments;
+       // $comments = $ticket->comments;
 
         return view('show')->with('ticket', $ticket)->with('logs', $logs)->with('comments', $comments);
     }

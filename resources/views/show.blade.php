@@ -83,17 +83,19 @@
         @forelse ($comments as $comment)
             <div class="max-w-sm rounded overflow-hidden shadow-lg mt-6 mb-6">
 
+             
+             
+                
+             
                 <div class="px-6 py-4 mt-3">
-                    <div class="font-bold text-xl mb-2">The Coldest Sunset</div>
+                    <div class="font-bold text-xl mb-2">Author: {{$comment->user->name}}</div>
                     <p class="text-gray-700 text-base">
-{{$comment->content}}
+       
+               
+                        {{ $comment->content }}
                     </p>
                 </div>
-                <div class="px-6 pt-4 pb-2">
-                    <span
-                        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
-
-                </div>
+              
             </div>
         @empty
             <h2>There is no comments yet!</h2>
@@ -112,13 +114,13 @@
                 @csrf
                 <label for="comment" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add
                     Comment</label>
-                <textarea type="text" rows="5" id="comment" name="comment"
+                <textarea type="text" rows="5" id="comment" name="content"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required>
       </textarea>
         </div>
-
-        <button type="submit"
+       <input hidden value={{auth()->id()}} name="user_id">
+        <button type="submit" value={{ $ticket->id }} name="ticket_id"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
             Comment</button>
 

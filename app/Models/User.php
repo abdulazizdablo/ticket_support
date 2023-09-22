@@ -57,10 +57,10 @@ class User extends Authenticatable
     }
 
 
-    public function comments()
+    public function comments():HasMany
     {
 
-        return $this->hasManyThrough(Comment::class, Ticket::class);
+        return $this->hasMany(Comment::class);
     }
 
 

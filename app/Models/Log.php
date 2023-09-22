@@ -10,6 +10,7 @@ class Log extends Model
     use HasFactory;
     
     protected $fillable = [
+        'user_id',
         'ticket_id',
         'created_by',
         'updated_by'

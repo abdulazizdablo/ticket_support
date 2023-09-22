@@ -14,11 +14,11 @@ class TicketObserver
     public function created(Ticket $ticket): void
     {
 
-     //   $created_by = User::find($ticket->user_id);
+        //   $created_by = User::find($ticket->user_id);
 
         $ticket->logs()->create([
-
-            'created_by' =>auth()->user()->name,
+            'user_id' => auth()->id(),
+            'created_by' => auth()->user()->name,
             'updated_at' => null
         ]);
     }
@@ -29,6 +29,7 @@ class TicketObserver
     public function updated(Ticket $ticket): void
     {
         $ticket->logs->create([
+            'user_id' => auth()->id(),
             'updated_by' => auth()->user()->name
         ]);
     }

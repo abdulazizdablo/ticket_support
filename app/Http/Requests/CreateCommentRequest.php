@@ -22,7 +22,9 @@ class CreateCommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'content' => 'required'
+            'content' => 'required|string',
+            'ticket_id' => 'required',
+            'user_id' => 'required'
         ];
     }
 }
