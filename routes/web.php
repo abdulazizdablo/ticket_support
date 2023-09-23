@@ -23,10 +23,15 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    $tickets_count = Ticket::count();
 
+    $tickets_total_count = Ticket::count();
+    $tickets_opened_count = Ticket::where('status_id', 1)->count();
+    $tickets_closed_count = Ticket::where('status_id', 2)->count();
 
-    return view('dashboard')->with('tickets_count', $tickets_count);
+    return view('dashboard')->with('tickets_total_count',  $tickets_total_count)->
+    with('tickets_opened_count', $tickets_opened_count)->
+    with('tickets_closed_count', $tickets_closed_count);
+
 })->middleware(['auth', 'verified',])->name('dashboard');
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

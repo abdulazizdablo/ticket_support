@@ -11,8 +11,23 @@
             </x-button>
         </div>
 
-        Total Tickets
-        {{ $tickets_count }}
+        <div class="flex justify-evenly items-center">
+            <div class=" flex flex-col items-center">
+                <h2>Total Tickets</h2>
+                <p class="font-medium">  {{ $tickets_total_count }}</p>
+            </div>
+            <div class=" flex flex-col items-center">
+                <h2>Opened Tickets</h2>
+                <p class="font-medium">       {{ $tickets_opened_count }}</p>
+            </div>
+            <div class=" flex flex-col items-center">
+                <h2>Closed Tickets</h2>
+               <p class="font-medium"> {{ $tickets_closed_count }}</p>
+            </div>
+        </div>
+
+
+
     </x-slot>
 
     <div class="p-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1">

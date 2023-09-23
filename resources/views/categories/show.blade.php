@@ -75,6 +75,56 @@
             </table>
         </div>
 
+
+        <h3 class="mb-4 mt-4">Ticket Logs</h3>
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Created By
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Updated By
+                        </th>
+
+                        <th scope="col" class="px-6 py-3">
+                            Created at
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Updated at
+                        </th>
+
+
+                </thead>
+                <tbody>
+                    @foreach ($logs as $log)
+                        <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                            <th scope="row"
+                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+
+                                {{ $log->created_by }}
+                            </th>
+                            <td class="px-6 py-4">
+                                {{ $log->updated_by }}
+                            </td>
+
+                            <td class="px-6 py-4">
+                                {{ $log->created_at }}
+                            </td>
+
+                            <td class="px-6 py-4">
+                                {{ $log->updated_at }}
+                            </td>
+
+                        </tr>
+                    @endforeach
+
+                </tbody>
+            </table>
+        </div>
+
+
         <h3 class="mb-4 mt-4">Comments on this ticket</h3>
 
 
@@ -83,22 +133,22 @@
         @forelse ($comments as $comment)
             <div class="max-w-sm rounded overflow-hidden shadow-lg mt-6 mb-6">
 
-             
-             
-                
-             
+
+
+
+
                 <div class="px-6 py-4 mt-3">
-                    <div class="font-bold text-xl mb-2">Author: {{$comment->user->name}}</div>
+                    <div class="font-bold text-xl mb-2">Author: {{ $comment->user->name }}</div>
                     <p class="text-gray-700 text-base">
-       
-               
+
+
                         {{ $comment->content }}
                     </p>
                 </div>
-              
+
             </div>
         @empty
-            <h2>There is no comments yet!</h2>
+            <h2 class="mb-4 mt-4 py-5">There is no comments yet!</h2>
         @endforelse
 
 
@@ -119,7 +169,7 @@
                     required>
       </textarea>
         </div>
-       <input hidden value={{auth()->id()}} name="user_id">
+        <input hidden value={{ auth()->id() }} name="user_id">
         <button type="submit" value={{ $ticket->id }} name="ticket_id"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
             Comment</button>

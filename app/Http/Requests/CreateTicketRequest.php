@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Priorities;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class CreateTicketRequest extends FormRequest
 {
@@ -23,12 +25,14 @@ class CreateTicketRequest extends FormRequest
     {
         return [
 
-            /*'title' => 'required|string|max:40',
+            'title' => 'required|string|max:40',
             'description' => 'required|string|max:255',
             'label' => 'required',
-            'priorirty' => 'required',
+            'priority' => ['required', new Enum(Priorities::class)],
             'category' => 'required',
-            'files' => 'required'*/
+            'files.*' => 'required|file|mimes:pdf,doc,docx,txt|max:2048',
+            'files' => 'required|array',
+            'status_id' => 'required|in:1,2'
 
         ];
     }

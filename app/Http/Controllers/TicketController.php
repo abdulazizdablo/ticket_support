@@ -33,12 +33,15 @@ class TicketController extends Controller
      */
     public function index()
     {
+        if (auth()->user()->hasRole(Roles::AGENT)) {
 
 
-        // $tickets = auth()->user()->load('tickets.labels:name', 'tickets.categories:name')->tickets;
-        $tickets = Ticket::with('labels:name', 'categories:name')->get();
+            $tickets = Ticket::with('labels:name', 'categories:name')->whereNotNull('agent_id')->paginate(30);
+            return view('index')->with('tickets', $tickets);
+        } else
 
-        return view('index')->with('tickets', $tickets);
+            $tickets = Ticket::with('labels:name', 'categories:name')->paginate(30);
+        return view('tickets.index')->with('tickets', $tickets);
     }
 
     /**
@@ -49,13 +52,13 @@ class TicketController extends Controller
         $statuses = DB::table('statuses')->get(['id', 'name']);
 
 
-        return view('create')->with('statuses', $statuses);
+        return view('tickets.create')->with('statuses', $statuses);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, CreateLabelService $label_service, CreateCategoryService $category_service)
+    public function store(CreateTicketRequest $request, CreateLabelService $label_service, CreateCategoryService $category_service)
     {
 
 
@@ -69,29 +72,19 @@ class TicketController extends Controller
                 $file_names[] = $file_name;
             }
         }
-        // $ticket_arr = array_merge(,   ['files' =>   $file_names]);
 
-        /*auth()->user()->tickets()-create([
 
-    'title' => $request->title,
-    'description' => $request->description,
-    'priority' => $request->priority,
-    'files' => $file_names
 
-]);*/
+        $ticket =  Ticket::create(
 
-        $ticket =  Ticket::create([
 
-            'status_id' => $request->status_id,
-            'title' => $request->title,
-            'description' => $request->description,
-            'priority' => $request->priority,
-            'files' => $file_names
-        ]);
-        /*  $request->except('files', 'label', 'category')+
-            ['files' =>   $file_names]
+            $request->except('category', 'label', 'files') +
+                ['files' =>   $file_names]
 
-       */
+
+        );
+
+
 
         $admin = User::where('role_id', Roles::ADMINSTRATOR)->first();
         event(new EventsTicketCreated($ticket, $admin));
@@ -111,12 +104,12 @@ class TicketController extends Controller
     {
 
 
-  $comments = Comment::with('user')->get();
+        $comments = Comment::with('user')->get();
 
         $logs = $ticket->logs;
-       // $comments = $ticket->comments;
 
-        return view('show')->with('ticket', $ticket)->with('logs', $logs)->with('comments', $comments);
+
+        return view('tickets.show')->with('ticket', $ticket)->with('logs', $logs)->with('comments', $comments);
     }
 
     /**
@@ -130,7 +123,7 @@ class TicketController extends Controller
         $agents = User::where('role_id', Roles::AGENT)->pluck('name', 'id');
         $statuses = DB::table('statuses')->get('name');
 
-        return view('edit')->with('ticket', $ticket)->with('agents', $agents)->with('statuses', $statuses);
+        return view('tickets.edit')->with('ticket', $ticket)->with('agents', $agents)->with('statuses', $statuses);
     }
 
     /**
@@ -168,6 +161,6 @@ class TicketController extends Controller
         // filter Tickets based on categories related using joins
         $filtered_tickets = Ticket::filter($request->filter);
 
-        return  view('index')->with('tickets', $filtered_tickets);
+        return  view('tickets.index')->with('tickets', $filtered_tickets);
     }
 }

@@ -4,8 +4,6 @@ namespace App\Listeners;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use App\Models\User;
-use App\Enums\Roles;
 use App\Notifications\TicketCreated;
 
 class SendTicketCreatedNotification
@@ -23,8 +21,6 @@ class SendTicketCreatedNotification
      */
     public function handle(object $event): void
     {
-
-        //$admin = User::where('role_id', Roles::ADMINSTRATOR)->first();
 
 
         $event->admin->notify(new TicketCreated($event->ticket, $event->admin));
