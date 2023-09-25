@@ -5,7 +5,7 @@
 
 
         @if (Session::has('message'))
-            <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+            <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400"
                 role="alert">
                 <span class="font-medium"> {{ session('message') }}</span>
             </div>
@@ -17,7 +17,7 @@
 
             <label for="grid-state"> Filter by</label>
             <select onchange="this.form.submit()"
-                class="block appearance-none w-3 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                class="block mb-4 mt-1 appearance-none w-3 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-state" name="filter">
 
                 <option value="status">Status</option>
@@ -26,10 +26,10 @@
             </select>
         </form>
 
-        <a href="{{ route('tickets.create') }}"><button type="submit"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create
+        <a href="{{ route('tickets.create') }}" class=" mb-2"><button type="submit"
+                class="text-white bg-blue-700   mb-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create
                 Ticket</button></a>
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <div class=" mt-4 relative overflow-x-hidden shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -54,6 +54,9 @@
 
                         <th scope="col" class="px-6 py-3">
                             Files
+                        </th>
+                        <th scope="col" colspan="2" class="px-6 py-3">
+                            Operations
                         </th>
                     </tr>
                 </thead>
@@ -96,16 +99,45 @@
                                 @can('manage-dashboard')
                                     <td class="px-6 py-4">
                                         <a href="{{ route('tickets.edit', $ticket) }}"
-                                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                            <x-button variant="primary"> Edit</x-button></a>
                                     </td>
-                                    <form action="{{ route('tickets.destroy', $ticket->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <td class="px-6 py-4">
-                                            <button type="submit"
-                                                class="text-red bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-red-800">Delete</button>
-                                    </form>
-                                @endcan
+
+
+
+                                    <td class="px-6 py-4">
+                                        <x-button variant="danger" x-data=""
+                                            x-on:click.prevent="$dispatch('open-modal', 'confirm-ticket-deletion')">
+                                            {{ __('Delete') }}
+                                        </x-button>
+                                        <x-modal name="confirm-ticket-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
+                                            <form method="POST" action="{{ route('tickets.destroy', $ticket) }}"
+                                                class="p-6">
+                                                @csrf
+                                                @method('DELETE')
+                                                <h2 class="text-lg font-medium">
+                                                    Are you sure you want to delete this ticket?
+                                                </h2>
+                                                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                                                    {{ __('Once ticket deleted, all of its resources and data will be permanently deleted.') }}
+                                                </p>
+
+
+
+                                                <div class="mt-6 flex justify-end">
+                                                    <x-button type="button" variant="secondary"
+                                                        x-on:click="$dispatch('close')">
+                                                        {{ __('Cancel') }}
+                                                    </x-button>
+
+                                                    <x-button variant="danger" class="ml-3">
+                                                        {{ __('Delete') }}
+                                                    </x-button>
+                                                </div>
+                                            </form>
+                                        </x-modal>
+                                        
+                                    @endcan
                             </tr>
                         @else
                             <tr class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
@@ -136,18 +168,18 @@
                                     {{ $ticket->files }}
                                 </td>
                                 @can('manage-dashboard')
-                                    <td class="px-6 py-4">
-                                        <a href="{{ route('tickets.edit', $ticket) }}"
-                                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <form action="{{ route('tickets.destroy', $ticket->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
+                                <td class="px-6 py-4">
+                                    <a href="{{ route('tickets.edit', $ticket) }}"
+                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                        <x-button variant="primary"> Edit</x-button></a>
+                                </td>
 
-                                            <button type="submit"
-                                                class="text-red bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-white-700 dark:focus:ring-red-800">Delete</button>
-                                        </form>
+                                    <td class="px-6 py-4">
+                                        <x-button variant="danger" x-data=""
+                                            x-on:click.prevent="$dispatch('open-modal', 'confirm-ticket-deletion')">
+                                            {{ __('Delete') }}
+                                        </x-button>
+                                     
                                     </td>
                                 @endcan
                             </tr>

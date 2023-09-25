@@ -4,29 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateTicketRequest;
 use App\Http\Requests\EditTicketRequest;
-use Illuminate\Http\Request;
 use App\Models\Ticket;
 use App\Services\CreateCategoryService;
 use App\Services\CreateLabelService;
 use App\Enums\Roles;
-use App\Events\TicketCreated as EventsTicketCreated;
 use App\Http\Requests\FilterTicketsRequest;
-use App\Models\Category;
+use App\Jobs\EmailAdminProcess;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Comment;
-use App\Services\FilterTicketsService;
-use App\Http\Requests\CreateCommentRequest;
-use App\Models\Log;
+
 
 class TicketController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware(['auth', 'signed'])->only('edit');
-    }
+
 
     /**
      * Display a listing of the resource.
@@ -61,7 +54,6 @@ class TicketController extends Controller
     public function store(CreateTicketRequest $request, CreateLabelService $label_service, CreateCategoryService $category_service)
     {
 
-
         $file_names = [];
         if ($request->file('files')) {
             foreach ($request->file('files') as  $file) {
@@ -73,26 +65,23 @@ class TicketController extends Controller
             }
         }
 
-
-
         $ticket =  Ticket::create(
-
 
             $request->except('category', 'label', 'files') +
                 ['files' =>   $file_names]
 
-
         );
 
-
+        $ticket->labels()->attach($request->label);
+        $ticket->categories()->attach($request->category);
 
         $admin = User::where('role_id', Roles::ADMINSTRATOR)->first();
-        event(new EventsTicketCreated($ticket, $admin));
 
-        $label_service->createLabel($request->label, $ticket);
-        $category_service->createCategory($request->category, $ticket);
+        EmailAdminProcess::dispatch($ticket, $admin);
+        //  $label_service->createLabel($request->label, $ticket);
 
 
+        //$category_service->createCategory($request->category, $ticket);
 
         return to_route('tickets.index')->withMessage('Ticket and its Label and Category has been created successfully');
     }
@@ -103,11 +92,9 @@ class TicketController extends Controller
     public function show(Ticket $ticket)
     {
 
-
         $comments = Comment::with('user')->get();
 
         $logs = $ticket->logs;
-
 
         return view('tickets.show')->with('ticket', $ticket)->with('logs', $logs)->with('comments', $comments);
     }
@@ -121,7 +108,7 @@ class TicketController extends Controller
         Gate::authorize('manage-dashboard');
 
         $agents = User::where('role_id', Roles::AGENT)->pluck('name', 'id');
-        $statuses = DB::table('statuses')->get('name');
+        $statuses = DB::table('statuses')->get(['id', 'name']);
 
         return view('tickets.edit')->with('ticket', $ticket)->with('agents', $agents)->with('statuses', $statuses);
     }

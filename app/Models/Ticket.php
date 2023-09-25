@@ -9,6 +9,7 @@ use App\Models\Label;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Ticket extends Model
 {
@@ -47,16 +48,6 @@ class Ticket extends Model
     }
 
 
-    /*protected function FilesAttribute(): Attribute
-    {
-        return Attribute::make(
-            set: fn ( $value) => (array)$value,
-            get: fn (array $value) => $value = implode(' ,',$value),
-        );
-
-
-        
-    }*/
 
 
     public function getFilesAttribute()
@@ -77,8 +68,6 @@ class Ticket extends Model
 
     public function scopeFilter(Builder $query, string $filter_determinator)
     {
-
-
 
         if ($filter_determinator === 'category') {
 

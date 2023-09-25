@@ -10,21 +10,23 @@
                 <span>Star on Github</span>
             </x-button>
         </div>
-
-        <div class="flex justify-evenly items-center">
-            <div class=" flex flex-col items-center">
-                <h2>Total Tickets</h2>
-                <p class="font-medium">  {{ $tickets_total_count }}</p>
-            </div>
-            <div class=" flex flex-col items-center">
-                <h2>Opened Tickets</h2>
-                <p class="font-medium">       {{ $tickets_opened_count }}</p>
-            </div>
-            <div class=" flex flex-col items-center">
-                <h2>Closed Tickets</h2>
-               <p class="font-medium"> {{ $tickets_closed_count }}</p>
-            </div>
-        </div>
+@can('manage-dashboard')
+<div class="flex justify-evenly items-center">
+    <div class=" flex flex-col items-center">
+        <h2>Total Tickets</h2>
+        <p class="font-medium">  {{ $tickets_total_count }}</p>
+    </div>
+    <div class=" flex flex-col items-center">
+        <h2>Opened Tickets</h2>
+        <p class="font-medium">       {{ $tickets_opened_count }}</p>
+    </div>
+    <div class=" flex flex-col items-center">
+        <h2>Closed Tickets</h2>
+       <p class="font-medium"> {{ $tickets_closed_count }}</p>
+    </div>
+</div>
+@endcan
+       
 
 
 

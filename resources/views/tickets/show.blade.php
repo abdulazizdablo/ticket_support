@@ -27,6 +27,9 @@
                         <th scope="col" class="px-6 py-3">
                             Files
                         </th>
+                        <th scope="col" colspan="2" class="px-6 py-3">
+                            Operations
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,8 +67,45 @@
                         </td>
                         @can('manage-dashboard')
                             <td class="px-6 py-4">
-                                <a href="{{ route('tickets.edit', $ticket) }}"
-                                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                               
+                                    <a href="{{ route('tickets.edit', $ticket) }}"
+                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                        <x-button variant="primary"> Edit</x-button></a>
+                                </td>
+
+
+
+                                <td class="px-6 py-4">
+                                    <x-button variant="danger" x-data=""
+                                        x-on:click.prevent="$dispatch('open-modal', 'confirm-ticket-deletion')">
+                                        {{ __('Delete') }}
+                                    </x-button>
+                                    <x-modal name="confirm-ticket-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
+                                        <form method="POST" action="{{ route('tickets.destroy', $ticket) }}"
+                                            class="p-6">
+                                            @csrf
+                                            @method('DELETE')
+                                            <h2 class="text-lg font-medium">
+                                                Are you sure you want to delete this ticket?
+                                            </h2>
+                                            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                                                {{ __('Once ticket deleted, all of its resources and data will be permanently deleted.') }}
+                                            </p>
+
+
+
+                                            <div class="mt-6 flex justify-end">
+                                                <x-button type="button" variant="secondary"
+                                                    x-on:click="$dispatch('close')">
+                                                    {{ __('Cancel') }}
+                                                </x-button>
+
+                                                <x-button variant="danger" class="ml-3">
+                                                    {{ __('Delete') }}
+                                                </x-button>
+                                            </div>
+                                        </form>
+                                    </x-modal>
                             </td>
                         @endcan
                     </tr>

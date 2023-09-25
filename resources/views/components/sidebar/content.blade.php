@@ -55,20 +55,20 @@
         <x-icons.ticket class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
     </x-slot></x-sidebar.link>
 @can('manage-dashboard')
-    <x-sidebar.link title="Categories" href="#"><x-slot name="icon">
+    <x-sidebar.link title="Categories" href="{{route('categories.index')}}"><x-slot name="icon">
         <x-icons.categories class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
     </x-slot></x-sidebar.link>
 
-    <x-sidebar.link title="Labels" href="#"><x-slot name="icon">
+    <x-sidebar.link title="Labels" href="{{route('labels.index')}}"><x-slot name="icon">
         <x-icons.label class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
     </x-slot></x-sidebar.link>
 
 
-    <x-sidebar.link title="Users" href="#"><x-slot name="icon">
+    <x-sidebar.link title="Users" href="{{route('users.index')}}"><x-slot name="icon">
         <x-icons.users class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
     </x-slot></x-sidebar.link>
 
-    <x-sidebar.link title="Ticket Logs" href="#"><x-slot name="icon">
+    <x-sidebar.link title="Ticket Logs" href="{{route('logs.index')}}"><x-slot name="icon">
         <x-icons.ticket_logs class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
     </x-slot></x-sidebar.link>
 

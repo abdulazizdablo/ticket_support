@@ -74,7 +74,7 @@
         </div>
 
 
-        <form action="{{ route('tickets.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('tickets.update',$ticket) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-6">
                 <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>

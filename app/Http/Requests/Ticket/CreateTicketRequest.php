@@ -31,9 +31,28 @@ class CreateTicketRequest extends FormRequest
             'priority' => ['required', new Enum(Priorities::class)],
             'category' => 'required',
             'files.*' => 'required|file|mimes:pdf,doc,docx,txt|max:2048',
-            'files' => 'required|array',
+            'files' => 'array|nullable',
             'status_id' => 'required|in:1,2'
 
         ];
+    }
+    public function messages()
+    {
+
+
+        $request = $this->instance()->all();
+        $files = $request['files'];
+
+        $messages = [];
+
+
+
+       
+        foreach (   $files as $key => $val) {
+            $messages["files.$key.mimes"] = "the file NO# " .  $key + 1 . " is not a type of: pdf,txt,doc,docx";
+            $messages["files.$key.max"] = "the file NO# " .  $key + 1 . " is greater than 2 MB";
+        }
+
+        return $messages;
     }
 }

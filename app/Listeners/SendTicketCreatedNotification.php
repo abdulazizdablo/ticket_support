@@ -6,7 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Notifications\TicketCreated;
 
-class SendTicketCreatedNotification
+class SendTicketCreatedNotification implements ShouldQueue 
 {
     /**
      * Create the event listener.

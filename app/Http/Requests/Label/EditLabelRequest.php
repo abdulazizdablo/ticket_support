@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateCommentRequest extends FormRequest
+class EditLabelRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,7 @@ class CreateCommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'content' => 'required|string',
-            'ticket_id' => 'required',
-            'user_id' => 'required'
+            'name' => 'required|unique:labels,name|max:20|min:2'
         ];
     }
 }
