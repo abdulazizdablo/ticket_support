@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Log;
-use Illuminate\Http\Request;
 
 class LogController extends Controller
 {
@@ -17,30 +16,4 @@ class LogController extends Controller
         return view('logs.index')->with('logs', $logs);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-
-
-    /**
-     * Store a newly created resource in storage.
-     */
-
-    /**
-     * Display the specified resource.
-     */
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-
-
-    /**
-     * Update the specified resource in storage.
-     */
-
-
-    /**
-     * Remove the specified resource from storage.
-     */
 }

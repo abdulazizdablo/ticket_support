@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateTicketRequest;
-use App\Http\Requests\EditTicketRequest;
+use App\Http\Requests\Ticket\CreateTicketRequest;
+use App\Http\Requests\Ticket\EditTicketRequest;
 use App\Models\Ticket;
-use App\Services\CreateCategoryService;
-use App\Services\CreateLabelService;
+use App\Services\CategoryService;
+use App\Services\LabelService;
 use App\Enums\Roles;
-use App\Http\Requests\FilterTicketsRequest;
+use App\Http\Requests\Ticket\FilterTicketsRequest;
 use App\Jobs\EmailAdminProcess;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Comment;
+use App\Models\Category;
+use  Illuminate\Http\Request;
 
 
 class TicketController extends Controller
@@ -40,18 +42,22 @@ class TicketController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(LabelService $label_service, CategoryService $category_service)
     {
+
+        $labels = $label_service->getLabels();
+        $categories = $category_service->getCategories();
+
         $statuses = DB::table('statuses')->get(['id', 'name']);
 
 
-        return view('tickets.create')->with('statuses', $statuses);
+        return view('tickets.create')->with('statuses', $statuses)->with('labels', $labels)->with('categories', $categories);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CreateTicketRequest $request, CreateLabelService $label_service, CreateCategoryService $category_service)
+    public function store(CreateTicketRequest $request)
     {
 
         $file_names = [];
@@ -78,10 +84,6 @@ class TicketController extends Controller
         $admin = User::where('role_id', Roles::ADMINSTRATOR)->first();
 
         EmailAdminProcess::dispatch($ticket, $admin);
-        //  $label_service->createLabel($request->label, $ticket);
-
-
-        //$category_service->createCategory($request->category, $ticket);
 
         return to_route('tickets.index')->withMessage('Ticket and its Label and Category has been created successfully');
     }
@@ -102,25 +104,62 @@ class TicketController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Ticket $ticket)
+    public function edit(CategoryService $category_service, LabelService $label_service, Ticket $ticket)
     {
 
         Gate::authorize('manage-dashboard');
 
         $agents = User::where('role_id', Roles::AGENT)->pluck('name', 'id');
+        $labels = $label_service->getLabels();
+        $categories = $category_service->getCategories();
         $statuses = DB::table('statuses')->get(['id', 'name']);
 
-        return view('tickets.edit')->with('ticket', $ticket)->with('agents', $agents)->with('statuses', $statuses);
+        return view('tickets.edit')->with('ticket', $ticket)->with('agents', $agents)->with('statuses', $statuses)->with('labels', $labels)->with('categories', $categories);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(EditTicketRequest $request, Ticket $ticket)
+    public function update(Request $request, Ticket $ticket)
     {
+
+         dd(  $request->label);
+        //  $ticket->labels->pluck('name')
+
 
         Gate::authorize('manage-dashboard');
 
+
+        $file_names = [];
+        if ($request->file('files')) {
+            foreach ($request->file('files') as  $file) {
+
+
+                $file_name = time() . rand(1, 99) . '.' . $file->extension();
+                $file->move(public_path('uploads'), $file_name);
+                $file_names[] = $file_name;
+            }
+        }
+
+
+
+        $ticket->update($request->except('label', 'category', 'files') + ['files' => $file_names]);
+
+
+        if ($ticket->labels->pluck('id') !== $request->label) {
+            $ticket->labels()->sync($request->label);
+        } else if ($ticket->categories->pluck('id') !== $request->category) {
+
+            $ticket->categories()->sync($request->category);
+        }
+
+
+        /*if($ticket->labels == ...$request->label){
+
+
+
+
+}*/
         $agent = User::find($request->agent_id);
 
         $agent->tickets()->save($ticket);

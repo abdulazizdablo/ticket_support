@@ -19,9 +19,7 @@ class DashboardController extends Controller
             $tickets_closed_count = Ticket::where('status_id', 2)->count();
 
             return view('dashboard')->with('tickets_total_count',  $tickets_total_count)->with('tickets_opened_count', $tickets_opened_count)->with('tickets_closed_count', $tickets_closed_count);
-        }
-
-        else{
+        } else {
 
             return view('dashboard');
         }

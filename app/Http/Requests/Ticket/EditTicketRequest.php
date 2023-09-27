@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Ticket;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
+
 class EditTicketRequest extends FormRequest
 {
     /**
@@ -22,22 +23,23 @@ class EditTicketRequest extends FormRequest
     public function rules(): array
     {
         return [
-    
+
             'title' => 'required|string|max:40',
             'description' => 'required|string|max:255',
             'label' => 'required',
             'priority' => ['required', new Enum(Priorities::class)],
             'category' => 'required',
-            'files.*' => 'required|file|mimes:pdf,doc,docx,txt|max:2048',
-            'files' => 'required|array',
-            'status_id' => 'required|in:1,2'
+            'files.*' => 'file|mimes:pdf,doc,docx,txt,csv,xlsx|max:2048',
+            'files' => 'nullable|array',
+            'status_id' => 'required|in:1,2',
+            'agent_id' => 'exists:users,id'
         ];
     }
 
     public function messages()
     {
 
-
+        if(isset($request['files'])){
         $request = $this->instance()->all();
         $files = $request['files'];
 
@@ -45,12 +47,16 @@ class EditTicketRequest extends FormRequest
 
 
 
-       
-        foreach (   $files as $key => $val) {
+
+        foreach ($files as $key => $val) {
             $messages["files.$key.mimes"] = "the file NO# " .  $key + 1 . " is not a type of: pdf,txt,doc,docx";
             $messages["files.$key.max"] = "the file NO# " .  $key + 1 . " is greater than 2 MB";
         }
 
         return $messages;
     }
+ 
+    else
+    return $messages=[];
+}
 }

@@ -76,6 +76,7 @@
 
         <form action="{{ route('tickets.update',$ticket) }}" method="POST" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
             <div class="mb-6">
                 <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
                 <input type="text" id="title" name="title"
@@ -92,63 +93,36 @@
             </div>
 
 
+
+
+          
             <h3 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> Labels</h3>
-
             <div class="flex  items-start content-center mb-6">
-
-                <div class="flex justify-evenly items-center ml-3 h-5">
-                    <input id="bug" type="checkbox" value="bug" name="label[]"
-                        class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800">
-                    <label for="bug" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">bug</label>
-                </div>
-                <div class="flex justify-evenly ml-3 items-center h-5">
-
-                    <input id="question" type="checkbox" value="question" name="label[]"
-                        class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800">
-                    <label for="question"
-                        class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">question</label>
-                </div>
-                <div class="flex justify-evenly   ml-3  items-center h-5">
-
-                    <input id="enhancment" type="checkbox" value="enhancment" name="label[]"
-                        class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800">
-                    <label for="enhancment"
-                        class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">enhancment</label>
-                </div>
-
-
+                @foreach ($labels as $label)
+                    <div class="flex justify-evenly items-center ml-3 h-5">
+                        <input id={{ $label->name }} type="checkbox" value={{ $label->id }} name="label[]"
+                            class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800">
+                        <label for={{ $label->name }}
+                            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $label->name }}</label>
+                    </div>
+                @endforeach
             </div>
 
-
+         
             <h3 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> Categories</h3>
-
             <div class="flex items-start content-center mb-6">
-
-                <div class="flex items-center ml-3 h-5">
-                    <input id="uncategorized" type="checkbox" value="uncategorized" name="category[]"
-                        class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800">
-                    <label for="uncategorized"
-                        class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Uncategorized</label>
-                </div>
-                <div class="flex   ml-3    items-center h-5">
-
-                    <input id="billing\payment" type="checkbox" value="billing\payment" name="category[]"
-                        class="w-4 h-4  border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800">
-                    <label for="billing\payment"
-                        class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Billing\Payment</label>
-                </div>
-                <div class="flex justify-evenly   ml-3  items-center h-5">
-
-                    <input id="technical_question" type="checkbox" value="technical_question" name="category[]"
-                        class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800">
-                    <label for="technical_question"
-                        class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Technical question</label>
-                </div>
-
-
+                @foreach ($categories as $category)
+                    <div class="flex items-center ml-3 h-5">
+                        <input id={{ $category->name }} type="checkbox" value={{ $category->id }}
+                            name="category[]"
+                            class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800">
+                        <label for={{ $category->name }}
+                            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $category->name }}</label>
+                    </div>
+                @endforeach
             </div>
+     
 
-            
 
 
                 <h3 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Agents</h3>
@@ -157,8 +131,8 @@
                     class=" mb-2 block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="agent_id" name="agent_id">
 
-                    @foreach ($agents as $agent)
-                        <option value="{{ $agent->id }}">{{ $agent->name }}</option>
+                    @foreach ($agents as $id => $agent_name)
+                        <option value="{{ $id }}">{{ $agent_name }}</option>
                     @endforeach
 
                 </select>

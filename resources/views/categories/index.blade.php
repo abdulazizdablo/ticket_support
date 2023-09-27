@@ -1,9 +1,7 @@
 <x-app-layout>
 
     <x-slot name='header'>
-        <a href="{{ route('categories.create') }}" class=" mb-2"><button type="submit"
-            class="text-white bg-blue-700   mb-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create
-            Category</button></a>
+
 
         @if (Session::has('message'))
             <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
@@ -24,7 +22,9 @@
                         <th scope="col" class="px-6 py-3">
                             Name
                         </th>
-
+                        <th scope="col" colspan="2" class="px-6 py-3">
+                            Operations
+                        </th>
 
                     </tr>
                 </thead>
@@ -42,7 +42,20 @@
                                 <td class="px-6 py-4">
                                     {{ $category->name }}
                                 </td>
+                                <td class="px-6 py-4">
+                                    <a href="{{ route('categories.edit', $category) }}"
+                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                        <x-button variant="primary"> Edit</x-button></a>
+                                </td>
 
+
+
+                                <td class="px-6 py-4">
+                                    <x-button variant="danger" x-data=""
+                                    x-on:click.prevent="$dispatch('open-modal', 'confirm-category-deletion')">
+                                    {{ __('Delete') }}
+                                </x-button>
+                                </td>
                             </tr>
                         @else
                             <tr class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
@@ -53,6 +66,49 @@
                                 <td class="px-6 py-4">
                                     {{ $category->name }}
                                 </td>
+                                <td class="px-6 py-4">
+                                    <a href="{{ route('categories.edit', $category) }}"
+                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                        <x-button variant="primary"> Edit</x-button></a>
+                                </td>
+
+
+
+                                <td class="px-6 py-4">
+                                    <x-button variant="danger" x-data=""
+                                    x-on:click.prevent="$dispatch('open-modal', 'confirm-category-deletion')">
+                                    {{ __('Delete') }}
+                                </x-button>
+                                <x-modal name="confirm-category-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
+                                    <form method="POST" action="{{ route('categories.destroy', $category) }}"
+                                        class="p-6">
+                                        @csrf
+                                        @method('DELETE')
+                                        <h2 class="text-lg font-medium">
+                                            Are you sure you want to delete this category?
+                                        </h2>
+                                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                                            {{ __('Once category deleted, all of its resources and data will be permanently deleted.') }}
+                                        </p>
+
+
+
+                                        <div class="mt-6 flex justify-end">
+                                            <x-button type="button" variant="secondary"
+                                                x-on:click="$dispatch('close')">
+                                                {{ __('Cancel') }}
+                                            </x-button>
+
+                                            <x-button variant="danger" class="ml-3">
+                                                {{ __('Delete') }}
+                                            </x-button>
+                                        </div>
+                                    </form>
+                                </x-modal>
+
+
+                                </td>
+                            </tr>
                         @endif
                     @endforeach
 

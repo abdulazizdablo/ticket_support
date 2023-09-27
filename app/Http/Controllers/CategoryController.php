@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateCategoryRequest;
+
+use App\Http\Requests\Category\EditCategoryRequest;
+use App\Http\Requests\Category\CreateCategoryRequest;
 use App\Models\Category;
 use Illuminate\Support\Facades\Gate;
 

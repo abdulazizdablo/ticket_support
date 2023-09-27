@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateLabelRequest;
-use App\Http\Requests\EditLabelRequest;
+use App\Http\Requests\Label\CreateLabelRequest;
+use App\Http\Requests\Label\EditLabelRequest;
 use App\Models\Label;
 use Illuminate\Support\Facades\Gate;
 

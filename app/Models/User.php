@@ -53,7 +53,7 @@ class User extends Authenticatable
     public function tickets(): HasMany
     {
 
-        return $this->hasMany(Ticket::class);
+        return $this->hasMany(Ticket::class,'agent_id');
     }
 
 

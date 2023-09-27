@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Requests\User\CreateUserRequest;
+use App\Http\Requests\User\EditUserRequest;
 
 class UserController extends Controller
 {
@@ -21,15 +22,18 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateUserRequest $request)
     {
-        //
+       $user =  User::create($request->validated());
+ 
+
+        return to_route('users.index')->withMessage('User has been created successfully');
     }
 
     /**
@@ -37,7 +41,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return view('users.show')->with('user', $user);
     }
 
     /**
@@ -45,15 +49,18 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('users.edit')->with('user', $user);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(EditUserRequest $request, User $user)
     {
-        //
+        $user->update($request->validated());
+        $user->assignRole($request->role_id);
+
+        return to_route('users.index')->withMessage('User has been updated successfully');
     }
 
     /**
@@ -61,6 +68,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+  
+        return to_route('users.index')->withMessage('User has been deleted succesfully');
     }
 }

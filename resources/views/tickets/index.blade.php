@@ -136,7 +136,7 @@
                                                 </div>
                                             </form>
                                         </x-modal>
-                                        
+                                    </td>
                                     @endcan
                             </tr>
                         @else
@@ -192,6 +192,6 @@
             </table>
         </div>
 
-        {{ $tickets->links() }}
+
     </x-slot>
 </x-app-layout>
