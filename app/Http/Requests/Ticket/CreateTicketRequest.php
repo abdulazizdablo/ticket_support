@@ -27,9 +27,12 @@ class CreateTicketRequest extends FormRequest
 
             'title' => 'required|string|max:40',
             'description' => 'required|string|max:255',
-            'label' => 'required',
+            'label' => 'required|array',
+            'label.*' => 'required|array',
+            'label.*.*' => 'required|string|exists:labels,name',
             'priority' => ['required', new Enum(Priorities::class)],
-            'category' => 'required',
+            'category.*' => 'required|array',
+            'category.*.*' => 'required|string|exists:categories,name',
             'files.*' => 'file|mimes:pdf,doc,docx,txt,xlsx,csv|max:2048',
             'files' => 'array|nullable',
             'status_id' => 'required|in:1,2'
@@ -46,13 +49,7 @@ class CreateTicketRequest extends FormRequest
 
             $files = $request['files'];
 
-
-
-
             $messages = [];
-
-
-
 
             foreach ($files as $key => $val) {
                 $messages["files.$key.mimes"] = "the file NO# " .  $key + 1 . " is not a type of: pdf,txt,doc,docx";
@@ -61,6 +58,6 @@ class CreateTicketRequest extends FormRequest
 
             return $messages;
         } else
-            return $messages = [];
+            return [];
     }
 }

@@ -59,6 +59,7 @@ class TicketController extends Controller
      */
     public function store(CreateTicketRequest $request)
     {
+        
 
         $file_names = [];
         if ($request->file('files')) {
@@ -70,6 +71,7 @@ class TicketController extends Controller
                 $file_names[] = $file_name;
             }
         }
+      
 
         $ticket =  Ticket::create(
 
@@ -78,8 +80,9 @@ class TicketController extends Controller
 
         );
 
-        $ticket->labels()->attach($request->label);
-        $ticket->categories()->attach($request->category);
+
+        $ticket->labels()->attach(array_keys($request->label));
+        $ticket->categories()->attach(array_keys($request->category));
 
         $admin = User::where('role_id', Roles::ADMINSTRATOR)->first();
 
@@ -151,6 +154,7 @@ class TicketController extends Controller
 
         $labels_array = array_map('intval', $request->label);
         $categories_array = array_map('intval', $request->category);
+
         if ($ticket->labels->pluck('id') !==    $labels_array) {
             $ticket->labels()->sync($request->label);
         } else if ($ticket->categories->pluck('id') !==   $categories_array) {
