@@ -10,7 +10,7 @@ class LabelService
     public function getLabels()
     {
         return  Cache::remember('labels', now()->addHour(2), function () {
-            return Label::all();
+            return Label::all('id','name');
         });
     }
 }

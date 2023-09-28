@@ -19,7 +19,7 @@ class TicketObserver
         $ticket->logs()->insert([
             'user_id' => auth()->id(),
             'created_by' => auth()->user()->name,
-           'created_at' => now()
+            'created_at' => now()
         ]);
     }
 
@@ -28,10 +28,10 @@ class TicketObserver
      */
     public function updated(Ticket $ticket): void
     {
-        $ticket->logs()->create([
+        $ticket->logs()->insert([
             'user_id' => auth()->id(),
             'updated_by' => auth()->user()->name,
-  
+            'updated_at' => now()
         ]);
     }
 

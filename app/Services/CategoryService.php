@@ -12,7 +12,7 @@ class CategoryService
     {
 
         return  Cache::remember('categories', now()->addHour(2), function () {
-            return Category::all();
+            return Category::all('id','name');
         });
     }
 }

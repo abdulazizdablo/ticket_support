@@ -31,11 +31,11 @@ class TicketController extends Controller
         if (auth()->user()->hasRole(Roles::AGENT)) {
 
 
-            $tickets = Ticket::with('labels:name', 'categories:name')->whereNotNull('agent_id')->paginate(30);
+            $tickets = Ticket::with('labels:name', 'categories:name')->whereNotNull('agent_id')->orderBy('created_at','DESC')->paginate(30);
             return view('index')->with('tickets', $tickets);
         } else
 
-            $tickets = Ticket::with('labels:name', 'categories:name')->paginate(30);
+            $tickets = Ticket::with('labels:name', 'categories:name')->orderBy('created_at','DESC')->paginate(30);
         return view('tickets.index')->with('tickets', $tickets);
     }
 
@@ -110,6 +110,7 @@ class TicketController extends Controller
         Gate::authorize('manage-dashboard');
 
         $agents = User::where('role_id', Roles::AGENT)->pluck('name', 'id');
+      
         $labels = $label_service->getLabels();
         $categories = $category_service->getCategories();
         $statuses = DB::table('statuses')->get(['id', 'name']);
@@ -120,11 +121,8 @@ class TicketController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Ticket $ticket)
+    public function update(EditTicketRequest $request, Ticket $ticket)
     {
-
-         dd(  $request->label);
-        //  $ticket->labels->pluck('name')
 
 
         Gate::authorize('manage-dashboard');
@@ -143,23 +141,25 @@ class TicketController extends Controller
 
 
 
+
         $ticket->update($request->except('label', 'category', 'files') + ['files' => $file_names]);
 
+        // Check if Labels and Categories are the same as current model to prevet
+        // unneccesary querying to Database
 
-        if ($ticket->labels->pluck('id') !== $request->label) {
+
+
+        $labels_array = array_map('intval', $request->label);
+        $categories_array = array_map('intval', $request->category);
+        if ($ticket->labels->pluck('id') !==    $labels_array) {
             $ticket->labels()->sync($request->label);
-        } else if ($ticket->categories->pluck('id') !== $request->category) {
+        } else if ($ticket->categories->pluck('id') !==   $categories_array) {
 
             $ticket->categories()->sync($request->category);
         }
+        else
 
 
-        /*if($ticket->labels == ...$request->label){
-
-
-
-
-}*/
         $agent = User::find($request->agent_id);
 
         $agent->tickets()->save($ticket);
@@ -182,7 +182,6 @@ class TicketController extends Controller
 
     public function filterTickets(FilterTicketsRequest $request)
     {
-
 
         // filter Tickets based on categories related using joins
         $filtered_tickets = Ticket::filter($request->filter);

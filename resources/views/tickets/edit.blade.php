@@ -1,8 +1,8 @@
 <x-app-layout>
     <x-slot name='header'>
 
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <div class="mb-3 relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table class="mb-3 w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
@@ -62,10 +62,7 @@
                         <td class="px-6 py-4">
                             {{ $ticket->files }}
                         </td>
-                        <td class="px-6 py-4">
-                            <a href="{{ route('tickets.edit', $ticket) }}"
-                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                        </td>
+                     
                     </tr>
 
 
@@ -74,7 +71,7 @@
         </div>
 
 
-        <form action="{{ route('tickets.update',$ticket) }}" method="POST" enctype="multipart/form-data">
+        <form class="mt-6" action="{{ route('tickets.update',$ticket) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="mb-6">
@@ -131,12 +128,15 @@
                     class=" mb-2 block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="agent_id" name="agent_id">
 
-                    @foreach ($agents as $id => $agent_name)
-                        <option value="{{ $id }}">{{ $agent_name }}</option>
+
+                  
+
+                    @foreach ($agents as $id => $agent)
+                        <option value={{ $id }}>{{ $agent }}</option>
                     @endforeach
 
                 </select>
-
+                <h3 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</h3>
 
                 <select
                 class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -149,15 +149,15 @@
             </select>
 
             
-            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="multiple_files">Upload
+            <label class="mt-5 mb-3 block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="multiple_files">Upload
                 multiple files</label>
             <input
                 class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                 id="multiple_files" name="files[]" type="file" multiple>
-            <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PDF,DOCX,CSV,XLSX</p>
+            <p class="mt-3 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PDF,DOCX,CSV,XLSX</p>
 
             <button type="submit"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                class="mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
         </form>
     </x-slot>
 </x-app-layout>

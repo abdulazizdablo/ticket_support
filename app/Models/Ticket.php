@@ -87,22 +87,5 @@ class Ticket extends Model
 
 
         return $tickets;
-
-        /*  if ($filter_determinator === 'category' && auth()->user()->hasRole(Roles::AGENT)) {
-
-
-            $tickets = $query->with('categories:name', 'labels:name')->whereNotNull('agent_id')
-                ->selectRaw('group_concat(categories.name order by categories.name asc) as categories_names, tickets.*')->join('category_ticket', 'tickets.id', '=', 'category_ticket.ticket_id')->join('categories', 'categories.id', '=', 'category_ticket.category_id')->groupBy('ticket_id')->orderBy('categories_names')->get();
-
-            return $tickets;
-        } else if ($filter_determinator === 'category') {
-
-            $tickets = $query->with('categories:name', 'labels:name')
-                ->selectRaw('group_concat(categories.name order by categories.name asc) as categories_names, tickets.*')->join('category_ticket', 'tickets.id', '=', 'category_ticket.ticket_id')->join('categories', 'categories.id', '=', 'category_ticket.category_id')->groupBy('ticket_id')->orderBy('categories_names')->get();
-            return $tickets;
-        } else
-
-            return $query->with('categories:name', 'labels:name')->orderBy($filter_determinator)->get();
-    }*/
     }
 }

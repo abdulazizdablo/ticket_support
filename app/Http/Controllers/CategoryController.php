@@ -12,15 +12,12 @@ use Illuminate\Support\Facades\Gate;
 
 class CategoryController extends Controller
 {
-
-
-
    
 
     public function index()
     {
         Gate::authorize('manage-dashboard');
-        $categories = Category::paginate(30);
+        $categories = Category::select(['name','id'])->paginate(30);
 
         return view('categories.index')->with('categories', $categories);
     }
@@ -31,6 +28,7 @@ class CategoryController extends Controller
     public function create()
     {
         Gate::authorize('manage-dashboard');
+
         return view('categories.create');
     }
 

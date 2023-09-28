@@ -43,7 +43,9 @@
                                 </td>
 
                                 <td class="px-6 py-4">
-                                    {{ $log->created_at->diffForHumans() }}
+                                    @if ($log->created_at)
+                                        {{ $log->created_at->diffForHumans() }}
+                                    @endif
                                 </td>
 
 
@@ -69,7 +71,10 @@
                                     {{ $log->updated_by }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ $log->created_at->diffForHumans() }}
+
+                                    @if ($log->created_at)
+                                        {{ $log->created_at->diffForHumans() }}
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4">
 

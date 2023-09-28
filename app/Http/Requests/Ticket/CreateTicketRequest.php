@@ -38,30 +38,29 @@ class CreateTicketRequest extends FormRequest
     }
     public function messages()
     {
-
-        if(isset($request['files'])){
         $request = $this->instance()->all();
+        if (isset($request['files'])) {
 
 
- 
+
+
             $files = $request['files'];
 
-   
-   
-
-        $messages = [];
 
 
 
+            $messages = [];
 
-        foreach ($files as $key => $val) {
-            $messages["files.$key.mimes"] = "the file NO# " .  $key + 1 . " is not a type of: pdf,txt,doc,docx";
-            $messages["files.$key.max"] = "the file NO# " .  $key + 1 . " is greater than 2 MB";
-        }
 
-        return $messages;
-    }
-    else
-     return $messages=[];
+
+
+            foreach ($files as $key => $val) {
+                $messages["files.$key.mimes"] = "the file NO# " .  $key + 1 . " is not a type of: pdf,txt,doc,docx";
+                $messages["files.$key.max"] = "the file NO# " .  $key + 1 . " is greater than 2 MB";
+            }
+
+            return $messages;
+        } else
+            return $messages = [];
     }
 }

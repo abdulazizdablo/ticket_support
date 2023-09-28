@@ -19,7 +19,7 @@ class LabelController extends Controller
     public function index()
     {
         Gate::authorize('manage-dashboard');
-        $labels = Label::paginate(30);
+        $labels = Label::select(['name','id'])->paginate(30);;
 
         return view('labels.index')->with('labels', $labels);
     }

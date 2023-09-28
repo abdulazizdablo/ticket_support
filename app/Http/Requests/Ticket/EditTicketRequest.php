@@ -30,7 +30,7 @@ class EditTicketRequest extends FormRequest
             'priority' => ['required', new Enum(Priorities::class)],
             'category' => 'required',
             'files.*' => 'file|mimes:pdf,doc,docx,txt,csv,xlsx|max:2048',
-            'files' => 'nullable|array',
+            'files' => 'array|nullable',
             'status_id' => 'required|in:1,2',
             'agent_id' => 'exists:users,id'
         ];

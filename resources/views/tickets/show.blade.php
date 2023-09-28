@@ -150,11 +150,15 @@
                             </td>
 
                             <td class="px-6 py-4">
-                                {{ $log->created_at }}
+                                @if ($log->created_at)
+                                {{ $log->created_at->diffForHumans() }}
+                            @endif
                             </td>
 
                             <td class="px-6 py-4">
-                                {{ $log->updated_at }}
+                                @if ($log->updated_at)
+                                {{ $log->updated_at->diffForHumans() }}
+                            @endif
                             </td>
 
                         </tr>
@@ -173,14 +177,9 @@
         @forelse ($comments as $comment)
             <div class="max-w-sm rounded overflow-hidden shadow-lg mt-6 mb-6">
 
-
-
-
-
                 <div class="px-6 py-4 mt-3">
                     <div class="font-bold text-xl mb-2">Author: {{ $comment->user->name }}</div>
                     <p class="text-gray-700 text-base">
-
 
                         {{ $comment->content }}
                     </p>
@@ -191,14 +190,7 @@
             <h2 class="mb-4 mt-4 py-5">There is no comments yet!</h2>
         @endforelse
 
-
-
-
-
-
         <div class="mb-6 mt-6">
-
-
 
             <form action="{{ route('comments.store') }}" method="POST">
                 @csrf

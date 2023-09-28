@@ -22,8 +22,8 @@ class FilterTicketsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'filter_determinator' => 'required|in:status,priority,category',
-           
+            'filter' => 'required|in:status_id,priority,category',
+
         ];
     }
 }

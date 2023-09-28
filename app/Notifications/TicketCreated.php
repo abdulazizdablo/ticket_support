@@ -13,14 +13,13 @@ use Illuminate\Support\Facades\URL;
 class TicketCreated extends Notification
 {
     use Queueable;
- 
+
 
     /**
      * Create a new notification instance.
      */
     public function __construct(public Ticket $ticket, public User $admin)
     {
-        
     }
 
     /**
@@ -42,7 +41,7 @@ class TicketCreated extends Notification
             ->subject('Ticket Created')
             ->greeting('Dear ' . $this->admin->name)
             ->line('Ticket has been created')
-            ->action('Ticket Link', route('tickets.edit',$this->ticket))
+            ->action('Ticket Link', route('tickets.edit', $this->ticket))
             ->line('Thank you for using our application!');
     }
 
