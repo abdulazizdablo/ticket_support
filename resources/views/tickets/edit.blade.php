@@ -1,6 +1,8 @@
 <x-app-layout>
     <x-slot name='header'>
-
+@foreach ($errors->all() as $error )
+{{$error}}    
+@endforeach
         <div class="mb-3 relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="mb-3 w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -97,7 +99,7 @@
             <div class="flex  items-start content-center mb-6">
                 @foreach ($labels as $label)
                     <div class="flex justify-evenly items-center ml-3 h-5">
-                        <input id={{ $label->name }} type="checkbox" value={{ $label->id }} name="label[]"
+                        <input id={{ $label->name }} type="checkbox" value="{{ $label->name }}" name="label[{{ $label->id }}][]"
                             class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800">
                         <label for={{ $label->name }}
                             class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $label->name }}</label>
@@ -110,8 +112,8 @@
             <div class="flex items-start content-center mb-6">
                 @foreach ($categories as $category)
                     <div class="flex items-center ml-3 h-5">
-                        <input id={{ $category->name }} type="checkbox" value={{ $category->id }}
-                            name="category[]"
+                        <input id={{ $category->name }} type="checkbox" value="{{$category->name }}"
+                        name="category[{{ $category->id }}][]"
                             class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800">
                         <label for={{ $category->name }}
                             class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $category->name }}</label>
@@ -119,7 +121,17 @@
                 @endforeach
             </div>
      
+            <label for="priority" class="mt-2">Priority</label>
 
+            <select
+                class=" mb-2 block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="priority" name="priority" value="{{ old('priority') }}">
+
+                @foreach (App\Enums\Priorities::cases() as $priority)
+                    <option value="{{ $priority->value }}">{{ $priority->value }}</option>
+                @endforeach
+
+            </select>
 
 
                 <h3 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Agents</h3>
@@ -140,7 +152,7 @@
 
                 <select
                 class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="status" name="status">
+                id="status_id" name="status_id">
 
                 @foreach ($statuses as $status)
                     <option value="{{ $status->id }}">{{ucfirst($status->name) }}</option>

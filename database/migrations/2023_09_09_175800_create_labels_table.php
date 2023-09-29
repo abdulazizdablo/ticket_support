@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('labels', function (Blueprint $table) {
             $table->id();
-            $table->string('name',40);
+            $table->string('name',40)->unique()->collation('utf8mb4_bin');
             $table->timestamps();
         });
     }

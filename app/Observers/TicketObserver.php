@@ -2,9 +2,9 @@
 
 namespace App\Observers;
 
-use App\Models\Log;
+
 use App\Models\Ticket;
-use App\Models\User;
+
 
 class TicketObserver
 {
@@ -14,9 +14,11 @@ class TicketObserver
     public function created(Ticket $ticket): void
     {
 
-        //   $created_by = User::find($ticket->user_id);
+
 
         $ticket->logs()->insert([
+            'ticket_title' => $ticket->title,
+            'ticket_id' => $ticket->id,
             'user_id' => auth()->id(),
             'created_by' => auth()->user()->name,
             'created_at' => now()

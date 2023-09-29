@@ -10,6 +10,7 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Enums\Roles;
+use Illuminate\Database\Eloquent\Collection;
 
 class Ticket extends Model
 {
@@ -47,9 +48,6 @@ class Ticket extends Model
         return $this->hasMany(Comment::class);
     }
 
-
-
-
     public function getFilesAttribute()
     {
         $files = json_decode($this->attributes['files']);
@@ -66,17 +64,17 @@ class Ticket extends Model
         'files' => 'array'
     ];
 
-    public function scopeFilter(Builder $query, string $filter_determinator)
+    public function scopeFilter(Builder $query, string $filter_determinator): Collection
     {
 
         $query->when($filter_determinator === 'category' && auth()->user()->hasRole(Roles::AGENT), function ($query) {
 
-            return    $query->with('categories:name', 'labels:name')->whereNotNull('agent_id')
+            return $query->with('categories:name', 'labels:name')->whereNotNull('agent_id')
                 ->selectRaw('group_concat(categories.name order by categories.name asc) as categories_names, tickets.*')->join('category_ticket', 'tickets.id', '=', 'category_ticket.ticket_id')->join('categories', 'categories.id', '=', 'category_ticket.category_id')->groupBy('ticket_id')->orderBy('categories_names')->get();
         });
 
 
-        $tickets  = $query->when($filter_determinator === 'category', function ($query) {
+        $tickets = $query->when($filter_determinator === 'category', function ($query) {
 
             $query->with('categories:name', 'labels:name')
                 ->selectRaw('group_concat(categories.name order by categories.name asc) as categories_names, tickets.*')->join('category_ticket', 'tickets.id', '=', 'category_ticket.ticket_id')->join('categories', 'categories.id', '=', 'category_ticket.category_id')->groupBy('ticket_id')->orderBy('categories_names');

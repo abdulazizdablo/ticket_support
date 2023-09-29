@@ -4,6 +4,7 @@ namespace App\Http\Requests\Ticket;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
+use App\Enums\Priorities;
 
 class EditTicketRequest extends FormRequest
 {
@@ -34,7 +35,7 @@ class EditTicketRequest extends FormRequest
             'category.*.*' => 'required|string|exists:categories,name',
             'files.*' => 'file|mimes:pdf,doc,docx,txt,xlsx,csv|max:2048',
             'files' => 'array|nullable',
-            'status_id' => 'required|in:1,2',
+            'status_id' => 'required|',
             'agent_id' => 'exists:users,id'
         ];
     }

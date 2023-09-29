@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('ticket_id')->nullable()->constrained()->onDelete('set null');
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+            $table->string('ticket_title', 40);
             $table->string('created_by');
             $table->string('updated_by')->nullable();
             $table->nullableTimestamps();

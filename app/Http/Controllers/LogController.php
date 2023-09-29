@@ -11,7 +11,7 @@ class LogController extends Controller
      */
     public function index()
     {
-        $logs = Log::paginate(30);
+        $logs = Log::with('ticket')->paginate(30);
 
         return view('logs.index')->with('logs', $logs);
     }

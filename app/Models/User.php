@@ -53,31 +53,15 @@ class User extends Authenticatable
     public function tickets(): HasMany
     {
 
-        return $this->hasMany(Ticket::class,'agent_id');
+        return $this->hasMany(Ticket::class, 'agent_id');
     }
 
 
-    public function comments():HasMany
+    public function comments(): HasMany
     {
 
         return $this->hasMany(Comment::class);
     }
 
-
-
-    public function labels()
-    {
-
-        return $this->hasManyThrough(Label::class, Ticket::class);
-    }
-    public function categories()
-    {
-
-        return $this->hasManyThrough(Category::class, Ticket::class);
-    }
-
-   /* public function getTicketsScope($q){
-
-return $q->with
-    }*/
+ 
 }

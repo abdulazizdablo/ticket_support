@@ -31,6 +31,7 @@ class CreateTicketRequest extends FormRequest
             'label.*' => 'required|array',
             'label.*.*' => 'required|string|exists:labels,name',
             'priority' => ['required', new Enum(Priorities::class)],
+            'category' => 'required|array',
             'category.*' => 'required|array',
             'category.*.*' => 'required|string|exists:categories,name',
             'files.*' => 'file|mimes:pdf,doc,docx,txt,xlsx,csv|max:2048',
@@ -43,9 +44,6 @@ class CreateTicketRequest extends FormRequest
     {
         $request = $this->instance()->all();
         if (isset($request['files'])) {
-
-
-
 
             $files = $request['files'];
 

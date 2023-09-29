@@ -14,8 +14,6 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Comment;
-use App\Models\Category;
-use  Illuminate\Http\Request;
 
 
 class TicketController extends Controller
@@ -31,11 +29,11 @@ class TicketController extends Controller
         if (auth()->user()->hasRole(Roles::AGENT)) {
 
 
-            $tickets = Ticket::with('labels:name', 'categories:name')->whereNotNull('agent_id')->orderBy('created_at','DESC')->paginate(30);
+            $tickets = Ticket::with('labels:name', 'categories:name')->whereNotNull('agent_id')->orderBy('created_at', 'DESC')->paginate(30);
             return view('index')->with('tickets', $tickets);
         } else
 
-            $tickets = Ticket::with('labels:name', 'categories:name')->orderBy('created_at','DESC')->paginate(30);
+            $tickets = Ticket::with('labels:name', 'categories:name')->orderBy('created_at', 'DESC')->paginate(30);
         return view('tickets.index')->with('tickets', $tickets);
     }
 
@@ -59,7 +57,6 @@ class TicketController extends Controller
      */
     public function store(CreateTicketRequest $request)
     {
-        
 
         $file_names = [];
         if ($request->file('files')) {
@@ -71,7 +68,7 @@ class TicketController extends Controller
                 $file_names[] = $file_name;
             }
         }
-      
+
 
         $ticket =  Ticket::create(
 
@@ -113,7 +110,7 @@ class TicketController extends Controller
         Gate::authorize('manage-dashboard');
 
         $agents = User::where('role_id', Roles::AGENT)->pluck('name', 'id');
-      
+
         $labels = $label_service->getLabels();
         $categories = $category_service->getCategories();
         $statuses = DB::table('statuses')->get(['id', 'name']);
@@ -126,7 +123,6 @@ class TicketController extends Controller
      */
     public function update(EditTicketRequest $request, Ticket $ticket)
     {
-
 
         Gate::authorize('manage-dashboard');
 
@@ -150,23 +146,20 @@ class TicketController extends Controller
         // Check if Labels and Categories are the same as current model to prevet
         // unneccesary querying to Database
 
-
-
         $labels_array = array_map('intval', $request->label);
         $categories_array = array_map('intval', $request->category);
 
         if ($ticket->labels->pluck('id') !==    $labels_array) {
-            $ticket->labels()->sync($request->label);
+            $ticket->labels()->sync($labels_array);
         } else if ($ticket->categories->pluck('id') !==   $categories_array) {
 
-            $ticket->categories()->sync($request->category);
+            $ticket->categories()->sync($categories_array);
+        } else {
+            $agent = User::find($request->agent_id);
+
+
+            $agent->tickets()->save($ticket);
         }
-        else
-
-
-        $agent = User::find($request->agent_id);
-
-        $agent->tickets()->save($ticket);
 
         return to_route('tickets.index')->withMessage('Ticket has been updated successfully');
     }
