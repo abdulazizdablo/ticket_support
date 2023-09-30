@@ -106,8 +106,17 @@ class TicketController extends Controller
      */
     public function edit(CategoryService $category_service, LabelService $label_service, Ticket $ticket)
     {
+if(auth()->user()->hasRole(Roles::ADMINSTRATOR)){
 
-        Gate::authorize('manage-dashboard');
+    Gate::authorize('manage-dashboard');
+}
+
+else if (auth()->user()->hasRole(Roles::AGENT)){
+
+    
+    Gate::authorize('agent_permission');
+}
+   
 
         $agents = User::where('role_id', Roles::AGENT)->pluck('name', 'id');
 
@@ -124,7 +133,17 @@ class TicketController extends Controller
     public function update(EditTicketRequest $request, Ticket $ticket)
     {
 
-        Gate::authorize('manage-dashboard');
+        if(auth()->user()->hasRole(Roles::ADMINSTRATOR)){
+
+            Gate::authorize('manage-dashboard');
+        }
+        
+        else if (auth()->user()->hasRole(Roles::AGENT)){
+        
+            
+            Gate::authorize('agent_permission');
+        }
+          
 
 
         $file_names = [];

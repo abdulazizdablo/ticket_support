@@ -30,82 +30,80 @@
                     @foreach ($logs as $key => $log)
                         @if ($key % 2 == 0)
                             <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-
-
-                                @if ($log->ticket()->exists())
-                                    <th scope="row"
-                                        class="px-5 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        <a href="{{ route('tickets.show', $log->ticket) }}"
-                                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $log->ticket->title }}</a>
-                                    </th>
-                                @else
-                                    <th scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        Deleted Ticket
-                                        {{ $log->ticket_title }}
-                                    </th>
-                                @endif
-
                                 <th scope="row"
                                     class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
 
-                                    {{ $log->created_by }}
-                                </th>
-                                <td class="px-6 py-4">
-                                    {{ $log->updated_by }}
-                                </td>
+                                    @if ($log->ticket()->exists())
 
-                                <td class="px-6 py-4">
-                                    @if ($log->created_at)
-                                        {{ $log->created_at->diffForHumans() }}
-                                    @endif
-                                </td>
-
-                                <td class="px-6 py-4">
-
-                                    @if ($log->updated_at)
-                                        {{ $log->updated_at->diffForHumans() }}
-                                    @endif
-                                </td>
-                            </tr>
-                        @else
-                            <tr class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
-
-                                @if ($log->ticket()->exists())
-                                    <th scope="row"
-                                        class="px-5 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         <a href="{{ route('tickets.show', $log->ticket) }}"
                                             class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $log->ticket->title }}</a>
-                                    </th>
-                                @else
-                                    <th scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-
+                                    @else
+                                
                                         {{ $log->ticket_title }}
-                                    </th>
-                                @endif
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-
-                                    {{ $log->created_by }}
                                 </th>
-                                <td class="px-6 py-4">
-                                    {{ $log->updated_by }}
-                                </td>
-                                <td class="px-6 py-4">
-
-                                    @if ($log->created_at)
-                                        {{ $log->created_at->diffForHumans() }}
-                                    @endif
-                                </td>
-                                <td class="px-6 py-4">
-
-                                    @if ($log->updated_at)
-                                        {{ $log->updated_at->diffForHumans() }}
-                                    @endif
-                                </td>
-                            </tr>
                         @endif
+           
+                
+
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+
+                        {{ $log->created_by }}
+                    </th>
+                    <td class="px-6 py-4">
+                        {{ $log->updated_by }}
+                    </td>
+
+                    <td class="px-6 py-4">
+                        @if ($log->created_at)
+                            {{ $log->created_at->diffForHumans() }}
+                        @endif
+                    </td>
+
+                    <td class="px-6 py-4">
+
+                        @if ($log->updated_at)
+                            {{ $log->updated_at->diffForHumans() }}
+                        @endif
+                    </td>
+                    </tr>
+                @else
+                    <tr class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+
+                    <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                        <th scope="row"
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+
+                            @if ($log->ticket()->exists())
+
+                                <a href="{{ route('tickets.show', $log->ticket) }}"
+                                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $log->ticket->title }}</a>
+                            @else
+                           
+                                {{ $log->ticket_title }}
+                        </th>
+                        @endif
+                        <th scope="row"
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+
+                            {{ $log->created_by }}
+                        </th>
+                        <td class="px-6 py-4">
+                            {{ $log->updated_by }}
+                        </td>
+                        <td class="px-6 py-4">
+
+                            @if ($log->created_at)
+                                {{ $log->created_at->diffForHumans() }}
+                            @endif
+                        </td>
+                        <td class="px-6 py-4">
+
+                            @if ($log->updated_at)
+                                {{ $log->updated_at->diffForHumans() }}
+                            @endif
+                        </td>
+                    </tr>
+                    @endif
                     @endforeach
                 </tbody>
             </table>

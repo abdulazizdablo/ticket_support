@@ -136,6 +136,14 @@
                                         </x-modal>
                                     </td>
                                 @endcan
+                                @can('agent_permission')
+                                <td class="px-5 py-4">
+                                    <a href="{{ route('tickets.edit', $ticket) }}"
+                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                        <x-button variant="primary"> Edit</x-button></a>
+                                </td>
+
+                                @endcan
                             </tr>
                         @else
                             <tr class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
