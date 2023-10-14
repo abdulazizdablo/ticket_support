@@ -41,10 +41,10 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'role_id' => Roles::ADMINSTRATOR
+            'role_id' => Roles::USER
         ]);
 
-        $user->assignRole(Roles::ADMINSTRATOR);
+        $user->assignRole(Roles::USER);
 
         event(new Registered($user));
 
